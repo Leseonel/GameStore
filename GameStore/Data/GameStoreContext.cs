@@ -1,6 +1,4 @@
 ﻿using GameStore.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data
@@ -21,6 +19,14 @@ namespace GameStore.Data
         public DbSet<GameModel> Games { get; set; }
         public DbSet<CurrencyModel> Currencys { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
+        public DbSet<GamesAndGenresModel> GamesAndGenres { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GenreModel>()
+            .HasMany(e => e.Children)
+            .WithOne(e => e.Parent)
+            .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

@@ -1,11 +1,7 @@
-﻿using GameStore.Data;
-using GameStore.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GameStore.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-
-
 
 namespace GameStore.Data
 {
@@ -37,7 +33,7 @@ namespace GameStore.Data
             context.SaveChanges();
 
             var users = new UserModel[]
-{
+            {
             new UserModel{UserName="DavitJ1",FirstName="Daviti",LastName="Janjalia", Email = "D@gmail.com",Country="Georgia"},
             new UserModel{UserName="DavitA1",FirstName="Davti",LastName="Abesalashvili", Email = "Davit@gmail.com",Country="Georgia"},
             new UserModel{UserName="LevaniS1",FirstName="Levani",LastName="Shengelia" , Email = "Levani@gmail.com",Country="Georgia"},
@@ -45,10 +41,24 @@ namespace GameStore.Data
             new UserModel{UserName="Pavlovichi",FirstName="Petre",LastName="Xachapuridze",Email="xachapura@yahoo.com",Country="Georgia"},
             new UserModel{UserName="Zouraba22",FirstName="Salome",LastName="Zurabishvili",Email="prezidenta@gmail.com",Country="Georgia"},
             new UserModel{UserName="DWill",FirstName="Luffy",LastName="Monkey D",Email="Luffytaro@OnePiece.com",Country="Goa Kingdom"}
-};
+            };
             foreach (UserModel c in users)
             {
                 context.Users.Add(c);
+            }
+            context.SaveChanges();
+
+            var gamesAndGenres = new GamesAndGenresModel[]
+{
+            new GamesAndGenresModel{GameId=3,GenreId=6},
+            new GamesAndGenresModel{GameId=2,GenreId=8},
+            new GamesAndGenresModel{GameId=1,GenreId=1},
+            new GamesAndGenresModel{GameId=4,GenreId=4},
+            new GamesAndGenresModel{GameId = 5,GenreId = 4},
+};
+            foreach (GamesAndGenresModel c in gamesAndGenres)
+            {
+                context.GamesAndGenres.Add(c);
             }
             context.SaveChanges();
 
@@ -99,6 +109,26 @@ namespace GameStore.Data
             foreach (PaymentTypeModel g in payMentTypes)
             {
                 context.PaymentTypes.Add(g);
+            }
+            context.SaveChanges();
+
+
+            var genres = new GenreModel[]
+            {
+            new GenreModel{GenreName="Strategy",Children = new List<GenreModel>
+            {
+                new GenreModel{GenreName="FPS"},
+                new GenreModel{GenreName="TPS"}
+            }},
+            new GenreModel{GenreName="Chxubebi",Parent = new GenreModel{GenreName="Fighting"}},
+            new GenreModel{GenreName="Action"},
+            new GenreModel{GenreName="Simulation"},
+            new GenreModel{GenreName="Arcade"},
+            new GenreModel{GenreName="Puzzle"},
+            };
+            foreach (GenreModel c in genres)
+            {
+                context.Genres.Add(c);
             }
             context.SaveChanges();
         }

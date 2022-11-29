@@ -1,4 +1,5 @@
-﻿using GameStore.Services;
+﻿using GameStore.CustomExceptions;
+using GameStore.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -15,15 +16,18 @@ namespace GameStore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            return new OkObjectResult(await _usersService.GetAllUsers());
-        }
-        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            return new OkObjectResult(await _usersService.GetUserById(id));
+            try
+            {
+                return new OkObjectResult(await _usersService.GetUserById(id));
+            }
+            catch(DoesNotExistException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
+
     }
 }

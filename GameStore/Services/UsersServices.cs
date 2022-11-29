@@ -1,7 +1,7 @@
-﻿using GameStore.Data;
+﻿using GameStore.CustomExceptions;
+using GameStore.Data;
 using GameStore.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,13 +14,15 @@ namespace GameStore.Services
         {
             _context = context;
         }
-        public async Task<List<UserModel>> GetAllUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
         public async Task<UserModel> GetUserById(int id)
         {
-            return await _context.Users.Where(users => users.UserId == id).FirstOrDefaultAsync();
+
+            UserModel user = await _context.Users.Where(users => users.UserId == id).FirstOrDefaultAsync();
+            if(user == null)
+            {
+                throw new DoesNotExistException("User with that ID not found ");
+            }
+            return user;
         }
     }
 }
