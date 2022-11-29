@@ -1,10 +1,11 @@
-﻿using GameStore.Data;
+﻿using GameStore.CustomExceptions;
 using GameStore.Models;
 using GameStore.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Nest;
+using NLog;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameStore.Controllers
@@ -18,29 +19,42 @@ namespace GameStore.Controllers
             _gamesService = gamesService;
         }
         [HttpGet]
+        [Route("All")]
         public async Task<IActionResult> GetAllGames()
         {
             return new OkObjectResult(await _gamesService.GetAllGames());
         }
+
         [HttpGet]
-        [Route("{id}")]
+        [Route("Game/{id}")]
         public async Task<IActionResult> GetGame(int id)
         {
             return new OkObjectResult(await _gamesService.GetGameById(id));
         }
+
         [HttpPost]
+        [Route("AddGame")]
         public async Task<IActionResult> AddGame([FromBody] GameModel newGame)
         {
             return new OkObjectResult(await _gamesService.AddGame(newGame));
         }
-        [HttpPut]
-        public async Task<IActionResult> EditGame([FromBody] GameModel game)
+
+        [HttpPost]
+        [Route("Filter")]
+        public async Task<IActionResult> FilterGamesByGenresAndName([FromBody] List<int> genresId, string name)
         {
-            return new OkObjectResult(await _gamesService.AddGame(game));
+            return new OkObjectResult(await _gamesService.FilterGamesByGenresAndName(genresId, name));
+        }
+
+        [HttpPut]
+        [Route("Edit/{id}")]
+        public async Task<IActionResult> EditGame([FromBody] GameModel editedGame, int id)
+        {
+            return new OkObjectResult(await _gamesService.EditGame(editedGame, id));
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
             return new OkObjectResult(await _gamesService.DeleteGame(id));

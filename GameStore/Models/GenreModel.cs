@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Models
@@ -9,6 +8,8 @@ namespace GameStore.Models
         [Key]
         public int GenreId { get; set; }
         public string GenreName { get; set; }
-        public int GenreParentId { get; set; }
+        public int? ParentId { get; set; }
+        public GenreModel Parent { get; set; }
+        public ICollection<GenreModel> Children { get; set; } = new List<GenreModel>();
     }
 }

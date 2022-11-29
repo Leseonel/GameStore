@@ -4,22 +4,46 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-
-#pragma warning disable S1118 // Disables warning where program class needs class declaration
+using Microsoft.Extensions.Configuration;
+using NLog.Extensions.Logging;
+using NLog;
+using NLog.Web;
 
 namespace GameStore
 {
-    public class Program
+    public abstract class Program
 
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var config = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+            var logger = LogManager.Setup()
+                       .LoadConfigurationFromAppSettings()
+                       .GetCurrentClassLogger();
+            LogManager.Configuration = new NLogLoggingConfiguration(config.GetSection("NLog"));
 
-            CreateDbIfNotExists(host);
+            try
+            {
+                var host = CreateHostBuilder(args).Build();
 
-            host.Run();
+                CreateDbIfNotExists(host);
+
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Application failed to start!");
+            }
+            finally
+            {
+                LogManager.Shutdown();
+            }
+
         }
+
 
         private static void CreateDbIfNotExists(IHost host)
         {
@@ -42,6 +66,6 @@ namespace GameStore
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseNLog();
     }
 }

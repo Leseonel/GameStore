@@ -9,7 +9,7 @@ namespace GameStore.Models
         public int OrderId { get; set; }
         public string OrderComment { get; set; }
         [ForeignKey("OrderedGamesModel")]
-        public int ParentOrderId { get; set; }
+        public int OrderedGamesId { get; set; }
         [ForeignKey("UserModel")]
         public string UserId { get; set; }
         [ForeignKey("GameModel")]
