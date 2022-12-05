@@ -6,6 +6,7 @@ namespace GameStore.Models
     {
         [Key]
         public int RoleId { get; set; }
+        [Required]
         public string RoleName { get; set; }
     }
 }

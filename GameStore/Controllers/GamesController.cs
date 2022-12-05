@@ -1,6 +1,8 @@
 ﻿using GameStore.CustomExceptions;
+using GameStore.Filters;
 using GameStore.Models;
 using GameStore.Services;
+using GameStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using NLog;
@@ -14,12 +16,14 @@ namespace GameStore.Controllers
     public class GamesController : Controller
     {
         private readonly GamesService _gamesService;
-        public GamesController(GamesService gamesService)
+        private readonly FilterService _filterService;
+        public GamesController(GamesService gamesService,FilterService filterService)
         {
             _gamesService = gamesService;
+            _filterService = filterService;
         }
         [HttpGet]
-        [Route("All")]
+        [Route("AllGame")]
         public async Task<IActionResult> GetAllGames()
         {
             return new OkObjectResult(await _gamesService.GetAllGames());
@@ -34,27 +38,33 @@ namespace GameStore.Controllers
 
         [HttpPost]
         [Route("AddGame")]
-        public async Task<IActionResult> AddGame([FromBody] GameModel newGame)
+        public async Task<IActionResult> AddGame([FromBody] CreateGameViewModel newGame)
         {
             return new OkObjectResult(await _gamesService.AddGame(newGame));
         }
 
         [HttpPost]
         [Route("Filter")]
-        public async Task<IActionResult> FilterGamesByGenresAndName([FromBody] List<int> genresId, string name)
+        public async Task<IActionResult> FilterGamesByGenreId([FromBody] List<GameFilter> gameFilters)
         {
-            return new OkObjectResult(await _gamesService.FilterGamesByGenresAndName(genresId, name));
+            return new OkObjectResult(await _filterService.FilterGamesByGenreId(gameFilters));
+        }
+        [HttpPost]
+        [Route("FilterName")]
+        public async Task<IActionResult> FilterGamesByName([FromBody] List<GameFilter> gameFilters)
+        {
+            return new OkObjectResult(await _filterService.FilterGamesByName(gameFilters));
         }
 
         [HttpPut]
-        [Route("Edit/{id}")]
-        public async Task<IActionResult> EditGame([FromBody] GameModel editedGame, int id)
+        [Route("EditGame/{id}")]
+        public async Task<IActionResult> EditGame([FromBody] CreateGameViewModel editedGame, int id)
         {
             return new OkObjectResult(await _gamesService.EditGame(editedGame, id));
         }
 
         [HttpDelete]
-        [Route("Delete/{id}")]
+        [Route("DeleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
             return new OkObjectResult(await _gamesService.DeleteGame(id));

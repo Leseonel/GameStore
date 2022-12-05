@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace GameStore.Models
 {
@@ -17,5 +17,6 @@ namespace GameStore.Models
         public string GameDescription { get; set; }
         public string GameImgUrl { get; set; }
         public DateTime GameReleaseDate { get; set; }
+        public IList<GamesAndGenresModel> GameAndGenre { get; set; } = new List<GamesAndGenresModel>();
     }
 }
