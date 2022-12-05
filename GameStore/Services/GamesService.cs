@@ -1,6 +1,7 @@
 ﻿using GameStore.CustomExceptions;
 using GameStore.Data;
 using GameStore.Models;
+using GameStore.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace GameStore.Services
         {
             _context = context;
         }
-
         public async Task<List<GameModel>> GetAllGames()
         {
             List<GameModel> games = await _context.Games.ToListAsync();
@@ -35,20 +35,55 @@ namespace GameStore.Services
             }
             return game;
         }
-        public async Task<GameModel> AddGame(GameModel newGame)
+        public async Task<GameModel> AddGame(CreateGameDto newGame)
         {
+            if (newGame == null || string.IsNullOrEmpty(newGame.GameName))
+            {
+                throw new ArgumentNullException(nameof(newGame));
+            }
             if (await _context.Games.Where(g => g.GameName == newGame.GameName).AnyAsync())
             {
                 throw new AlreadyExistException("This game already exists in GameStore");
             }
-            await _context.Games.AddAsync(newGame);
+            GameModel game = new GameModel()
+            {
+                GameName = newGame.GameName,
+                GameDeveloper = newGame.GameDeveloper,
+                GamePublisher = newGame.GamePublisher,
+                GamePrice = newGame.GamePrice,
+                GameDescription = newGame.GameDescription,
+                GameImgUrl = newGame.GameImgUrl,
+                GameReleaseDate = newGame.GameReleaseDate
+            };
+            await _context.Games.AddAsync(game);
             await _context.SaveChangesAsync();
 
-            return newGame;
+            var savedGame = await _context.Games.Where(x => x.GameName == game.GameName).SingleOrDefaultAsync();
+            if (newGame.GenreIds != null && newGame.GenreIds.Count != 0)
+            {
+                return await AddGenresToGame(savedGame, newGame.GenreIds);
+            }
+            return savedGame;
         }
-        public async Task<GameModel> EditGame(GameModel editedGame, int id)
+        public async Task<GameModel> AddGenresToGame(GameModel game, List<int> genreIds)
         {
-            var gameToUpdate = await _context.Games.Where(game => game.GameId == id).FirstOrDefaultAsync();
+            game.GameAndGenre = new List<GamesAndGenresModel>();
+            foreach (var genreId in genreIds)
+            {
+                var genre = await _context.Genres.Where(x => x.GenreId == genreId).SingleOrDefaultAsync();
+                if (genre != null)
+                {
+                    game.GameAndGenre.Add(new GamesAndGenresModel() { GameId = game.GameId, GenreId = genre.GenreId });
+                }
+            }
+            await _context.SaveChangesAsync();
+
+
+            return game;
+        }
+        public async Task<GameModel> EditGame(CreateGameDto editedGame, int id)
+        {
+            var gameToUpdate = await _context.Games.Where(game => game.GameId == id).Include(x => x.GameAndGenre).FirstOrDefaultAsync();
             if (gameToUpdate == null)
             {
                 throw new DoesNotExistException("Can not find a game with that ID to edit");
@@ -60,9 +95,48 @@ namespace GameStore.Services
             gameToUpdate.GamePrice = editedGame.GamePrice;
             gameToUpdate.GameReleaseDate = editedGame.GameReleaseDate;
             gameToUpdate.GameImgUrl = editedGame.GameImgUrl;
+            if (editedGame.GenreIds != null && editedGame.GenreIds.Count != 0)
+            {
+                gameToUpdate.GameAndGenre = await UpdateGameGenres(gameToUpdate, editedGame.GenreIds);
+            }
             await _context.SaveChangesAsync();
 
             return gameToUpdate;
+        }
+        public async Task<IList<GamesAndGenresModel>> UpdateGameGenres(GameModel gameToUpdate, List<int> genreIds)
+        {
+            if (gameToUpdate.GameAndGenre == null || gameToUpdate.GameAndGenre.Count == 0)
+            {
+                gameToUpdate.GameAndGenre = new List<GamesAndGenresModel>();
+                foreach (var genreId in genreIds)
+                {
+                    var genre = await _context.Genres.Where(x => x.GenreId == genreId).SingleOrDefaultAsync();
+                    if (genre != null)
+                    {
+                        gameToUpdate.GameAndGenre.Add(new GamesAndGenresModel() { GameId = gameToUpdate.GameId, GenreId = genre.GenreId });
+                    }
+                }
+                return gameToUpdate.GameAndGenre;
+            }
+            foreach (var genreId in genreIds)
+            {
+                if (gameToUpdate.GameAndGenre.Any(x => x.GenreId != genreId))
+                {
+                    var genre = await _context.Genres.Where(x => x.GenreId == genreId).SingleOrDefaultAsync(); 
+                    if (genre != null) { gameToUpdate.GameAndGenre.Add(new GamesAndGenresModel() 
+                    { 
+                        GameId = gameToUpdate.GameId, GenreId = genre.GenreId });
+                    }
+                }
+            }
+            foreach (var genre in gameToUpdate.GameAndGenre)
+            {
+                if (!genreIds.Contains(genre.GenreId))
+                {
+                    gameToUpdate.GameAndGenre.Remove(genre);
+                }
+            }
+            return gameToUpdate.GameAndGenre;
         }
         public async Task<GameModel> DeleteGame(int id)
         {
@@ -74,31 +148,6 @@ namespace GameStore.Services
             _context.Games.Remove(findGame);
             await _context.SaveChangesAsync();
             return findGame;
-        }
-        public async Task<List<GameModel>> FilterGamesByGenresAndName(List<int> genres, string name)
-        {
-            var result = new List<GameModel>();
-            if (!string.IsNullOrEmpty(name))
-            {
-                result = name.Length < 3 ? result :
-                    await _context.Games.Where(game => game.GameName.Contains(name)).ToListAsync();
-            }
-            else if (genres.Count != 0 && string.IsNullOrEmpty(name))
-            {
-                var filterGenres = _context.GamesAndGenres.Where(g => genres.Contains(g.GenreId));
-                result = await _context.Games.Where(game => filterGenres.Any(gen => gen.GameId == game.GameId)).ToListAsync();
-            }
-            else
-            {
-                var filterGenres = _context.GamesAndGenres.Where(g => genres.Contains(g.GenreId));
-                result = name.Length >= 3 ? await _context.Games.Where(game => filterGenres.Any(gen => gen.GameId == game.GameId) && game.GameName.Contains(name)).ToListAsync()
-                    : await _context.Games.Where(game => filterGenres.Any(gen => gen.GameId == game.GameId)).ToListAsync();
-            }
-            if (result.Count == 0)
-            {
-                throw new DoesNotExistException();
-            }
-            return result;
         }
     }
 }

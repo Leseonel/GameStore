@@ -24,9 +24,18 @@ namespace GameStore.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GenreModel>()
-            .HasMany(e => e.Children)
-            .WithOne(e => e.Parent)
-            .OnDelete(DeleteBehavior.Restrict);
+                .HasMany(e => e.Children)
+                .WithOne(e => e.Parent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<GamesAndGenresModel>()
+                .HasOne<GameModel>(x => x.Game)
+                .WithMany(x => x.GameAndGenre)
+                .HasForeignKey(x => x.GameId);
+            modelBuilder.Entity<GamesAndGenresModel>()
+                .HasOne<GenreModel>(x => x.Genre)
+                .WithMany(x => x.GameAndGenre)
+                .HasForeignKey(x => x.GenreId);
         }
     }
 }

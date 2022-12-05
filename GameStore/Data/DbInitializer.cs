@@ -12,11 +12,9 @@ namespace GameStore.Data
             context.Database.EnsureCreated();
 
 
-
-            // Look for any students.
             if (context.Games.Count() > 0)
             {
-                return;   // DB has been seeded
+                return;
             }
             var games = new GameModel[]
              {
@@ -47,22 +45,6 @@ namespace GameStore.Data
                 context.Users.Add(c);
             }
             context.SaveChanges();
-
-            var gamesAndGenres = new GamesAndGenresModel[]
-{
-            new GamesAndGenresModel{GameId=3,GenreId=6},
-            new GamesAndGenresModel{GameId=2,GenreId=8},
-            new GamesAndGenresModel{GameId=1,GenreId=1},
-            new GamesAndGenresModel{GameId=4,GenreId=4},
-            new GamesAndGenresModel{GameId = 5,GenreId = 4},
-};
-            foreach (GamesAndGenresModel c in gamesAndGenres)
-            {
-                context.GamesAndGenres.Add(c);
-            }
-            context.SaveChanges();
-
-
 
             var currency = new CurrencyModel[]
              {
@@ -120,7 +102,7 @@ namespace GameStore.Data
                 new GenreModel{GenreName="FPS"},
                 new GenreModel{GenreName="TPS"}
             }},
-            new GenreModel{GenreName="Chxubebi",Parent = new GenreModel{GenreName="Fighting"}},
+            new GenreModel{GenreName="Chxubebi"},
             new GenreModel{GenreName="Action"},
             new GenreModel{GenreName="Simulation"},
             new GenreModel{GenreName="Arcade"},
@@ -129,6 +111,20 @@ namespace GameStore.Data
             foreach (GenreModel c in genres)
             {
                 context.Genres.Add(c);
+            }
+            context.SaveChanges();
+
+            var gamesAndGenres = new GamesAndGenresModel[]
+{
+            new GamesAndGenresModel{GameId=3,GenreId=6},
+            new GamesAndGenresModel{GameId=2,GenreId=8},
+            new GamesAndGenresModel{GameId=1,GenreId=1},
+            new GamesAndGenresModel{GameId=4,GenreId=4},
+            new GamesAndGenresModel{GameId = 5,GenreId = 4},
+};
+            foreach (GamesAndGenresModel c in gamesAndGenres)
+            {
+                context.GamesAndGenres.Add(c);
             }
             context.SaveChanges();
         }
