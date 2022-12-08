@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using NLog.Extensions.Logging;
 using NLog;
 using NLog.Web;
+using GameStore.Data.SeedData;
 
 namespace GameStore
 {

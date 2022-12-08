@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameStore.ViewModels
 {
-    public class CreateGameDto
+    public class CreateGameViewModel
     {
         public string GameName { get; set; }
 

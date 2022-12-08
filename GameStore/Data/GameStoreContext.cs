@@ -1,16 +1,14 @@
 ﻿using GameStore.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data
 {
-    public class GameStoreContext : DbContext
+    public class GameStoreContext : IdentityDbContext<UserModel>
     {
         public GameStoreContext(DbContextOptions<GameStoreContext> options) : base(options)
         {
         }
-
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<RoleModel> Roles { get; set; }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
         public DbSet<OrderedGamesModel> OrderedGames { get; set; }
@@ -21,21 +19,29 @@ namespace GameStore.Data
         public DbSet<CommentModel> Comments { get; set; }
         public DbSet<GamesAndGenresModel> GamesAndGenres { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<GenreModel>()
+            builder.Entity<GenreModel>()
                 .HasMany(e => e.Children)
                 .WithOne(e => e.Parent)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<GamesAndGenresModel>()
+            builder.Entity<GamesAndGenresModel>()
+                .HasIndex(u => new { u.GameId, u.GenreId })
+                .IsUnique();
+            builder.Entity<GamesAndGenresModel>()
+                .HasKey(x => x.GamesAndGenresId);
+
+            builder.Entity<GamesAndGenresModel>()
                 .HasOne<GameModel>(x => x.Game)
                 .WithMany(x => x.GameAndGenre)
                 .HasForeignKey(x => x.GameId);
-            modelBuilder.Entity<GamesAndGenresModel>()
+            builder.Entity<GamesAndGenresModel>()
                 .HasOne<GenreModel>(x => x.Genre)
                 .WithMany(x => x.GameAndGenre)
                 .HasForeignKey(x => x.GenreId);
+
+            base.OnModelCreating(builder);
         }
     }
 }

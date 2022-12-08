@@ -1,6 +1,6 @@
 ﻿using GameStore.Models;
 using GameStore.Services;
-using GameStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -14,7 +14,6 @@ namespace GameStore.Controllers
         {
             _genresService = genresService;
         }
-
         [HttpGet]
         [Route("AllGenre")]
         public async Task<IActionResult> GetAllGenres()
@@ -27,21 +26,21 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _genresService.GetGenreById(id));
         }
+        [Authorize]
         [HttpPost]
         [Route("AddGenre")]
         public async Task<IActionResult> AddGenre([FromBody] GenreModel newGenre, int? genreId)
         {
             return new OkObjectResult(await _genresService.AddGenre(newGenre, genreId));
         }
-
+        [Authorize]
         [HttpPut]
         [Route("EditGenre/{id}")]
         public async Task<IActionResult> EditGenre([FromBody] GenreModel editedGame, int id)
         {
             return new OkObjectResult(await _genresService.EditGenre(editedGame, id));
         }
-
-
+        [Authorize]
         [HttpDelete]
         [Route("DeleteGenre/{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
