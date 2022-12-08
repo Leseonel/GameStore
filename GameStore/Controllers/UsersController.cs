@@ -14,20 +14,5 @@ namespace GameStore.Controllers
         {
             _usersService = usersService;
         }
-
-        [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
-        {
-            try
-            {
-                return new OkObjectResult(await _usersService.GetUserById(id));
-            }
-            catch(DoesNotExistException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
     }
 }

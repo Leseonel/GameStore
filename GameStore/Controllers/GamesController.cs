@@ -1,12 +1,8 @@
-﻿using GameStore.CustomExceptions;
-using GameStore.Filters;
-using GameStore.Models;
+﻿using GameStore.Filters;
 using GameStore.Services;
 using GameStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
-using NLog;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,6 +18,7 @@ namespace GameStore.Controllers
             _gamesService = gamesService;
             _filterService = filterService;
         }
+        [Authorize]
         [HttpGet]
         [Route("AllGame")]
         public async Task<IActionResult> GetAllGames()
@@ -35,14 +32,13 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _gamesService.GetGameById(id));
         }
-
+        [Authorize]
         [HttpPost]
         [Route("AddGame")]
         public async Task<IActionResult> AddGame([FromBody] CreateGameViewModel newGame)
         {
             return new OkObjectResult(await _gamesService.AddGame(newGame));
         }
-
         [HttpPost]
         [Route("Filter")]
         public async Task<IActionResult> FilterGamesByGenreId([FromBody] List<GameFilter> gameFilters)
@@ -55,14 +51,14 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _filterService.FilterGamesByName(gameFilters));
         }
-
+        [Authorize]
         [HttpPut]
         [Route("EditGame/{id}")]
-        public async Task<IActionResult> EditGame([FromBody] CreateGameViewModel editedGame, int id)
+        public async Task<IActionResult> EditGame([FromBody] EditGameViewModel editedGame, int id)
         {
             return new OkObjectResult(await _gamesService.EditGame(editedGame, id));
         }
-
+        [Authorize]
         [HttpDelete]
         [Route("DeleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)

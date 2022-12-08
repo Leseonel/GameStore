@@ -7,69 +7,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using GameStore.Data.Repositories.GameRepository;
+using GameStore.Data.UnitOfWork;
+using GameStore.Data.Repositories.FilterRepository;
+using Nest;
 
 namespace GameStore.Services
 {
     public class FilterService
     {
-        private readonly GameStoreContext _context;
-        public FilterService(GameStoreContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IFilterRepository _filterRepository;
+
+        public FilterService(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
+            _filterRepository = _unitOfWork.Filters;
         }
         public Task<List<GameModel>> FilterGamesByName(List<GameFilter> gamesFilters)
         {
-            gamesFilters = ValidateFilters(gamesFilters);
-
-            var games = _context.Games.AsQueryable();
-
-            foreach (var filter in gamesFilters)
-            {
-                if (filter.PropertyType == FilteringGame.Name)
-                {
-                    games = ApplyNameFilters(games, filter);
-                }
-            }
-            return games.ToListAsync();
+            return _filterRepository.FilterGamesByName(gamesFilters);
         }
         public Task<List<GamesAndGenresModel>> FilterGamesByGenreId(List<GameFilter> gamesFilters)
         {
-            gamesFilters = ValidateFilters(gamesFilters);
-
-            var games = _context.GamesAndGenres.AsQueryable();
-
-            foreach (var filter in gamesFilters)
-            {
-                if (filter.PropertyType == FilteringGame.Id)
-                {
-                    games = ApplyIdFilters(games, filter);
-                }
-            }
-            return games.ToListAsync();
-        }
-
-        private IQueryable<GamesAndGenresModel> ApplyIdFilters(IQueryable<GamesAndGenresModel> genres, GameFilter gameFilter)
-        {
-            return genres.Where(game => game.GenreId == Int32.Parse(gameFilter.PropertyValue));
-        }
-
-        private IQueryable<GameModel> ApplyNameFilters(IQueryable<GameModel> games, GameFilter gameFilter)
-        {
-            return games.Where(game => game.GameName.Contains(gameFilter.PropertyValue));
-        }
-
-        private List<GameFilter> ValidateFilters(List<GameFilter> gameFilters)
-        {
-            if (gameFilters == null)
-            {
-                return new List<GameFilter>();
-            }
-
-            foreach (var filter in gameFilters)
-            {
-                filter.PropertyValue ??= "";
-            }
-            return gameFilters;
+            return _filterRepository.FilterGamesByGenreId(gamesFilters);
         }
     }
 }

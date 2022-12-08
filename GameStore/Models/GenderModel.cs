@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameStore.Models
 {
     public class GenderModel
     {
         [Key]
-        public int GenderId { get; set; }
+        public Guid GenderId { get; set; }
         public string GenderName { get; set; }
     }
 }

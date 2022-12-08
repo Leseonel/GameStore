@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameStore.Data
+namespace GameStore.Data.SeedData
 {
     public static class DbInitializer
     {
@@ -54,18 +54,6 @@ namespace GameStore.Data
             foreach (CurrencyModel c in currency)
             {
                 context.Currencys.Add(c);
-            }
-            context.SaveChanges();
-
-
-            var roles = new RoleModel[]
-             {
-                new RoleModel{RoleName="Administrator" },
-                new RoleModel{RoleName="Customer" },
-             };
-            foreach (RoleModel g in roles)
-            {
-                context.Roles.Add(g);
             }
             context.SaveChanges();
 
