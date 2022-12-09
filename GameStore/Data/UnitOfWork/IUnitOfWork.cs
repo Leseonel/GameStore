@@ -1,5 +1,6 @@
 ﻿using GameStore.Data.Repositories;
 using GameStore.Data.Repositories.FilterRepository;
+using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.Repositories.GenreRepository;
 using GameStore.Data.Repositories.UserRepository;
@@ -13,7 +14,7 @@ namespace GameStore.Data.UnitOfWork
         IGenresRepository Genres { get; }
         IFilterRepository Filters { get; }
         IUsersRepository Users { get; }
-
+        IGameCommentsRepository Comments { get; }
         int Complete();
     }
 }

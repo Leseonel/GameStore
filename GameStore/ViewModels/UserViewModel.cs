@@ -17,6 +17,7 @@ namespace GameStore.ViewModels
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        public string AvatarUrl { get; set; }
         public Guid RoleId { get; set; }
         public Guid GenderId { get; set; }
 

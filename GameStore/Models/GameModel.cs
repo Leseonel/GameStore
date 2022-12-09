@@ -18,5 +18,6 @@ namespace GameStore.Models
         public string GameImgUrl { get; set; }
         public DateTime GameReleaseDate { get; set; }
         public IList<GamesAndGenresModel> GameAndGenre { get; set; } = new List<GamesAndGenresModel>();
+        public IList<CommentModel> GameAndComments { get; set; } = new List<CommentModel>();
     }
 }

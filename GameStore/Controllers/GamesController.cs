@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace GameStore.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class GamesController : Controller
     {
         private readonly GamesService _gamesService;
@@ -18,7 +19,7 @@ namespace GameStore.Controllers
             _gamesService = gamesService;
             _filterService = filterService;
         }
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         [Route("AllGame")]
         public async Task<IActionResult> GetAllGames()
@@ -32,7 +33,6 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _gamesService.GetGameById(id));
         }
-        [Authorize]
         [HttpPost]
         [Route("AddGame")]
         public async Task<IActionResult> AddGame([FromBody] CreateGameViewModel newGame)
@@ -51,14 +51,12 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _filterService.FilterGamesByName(gameFilters));
         }
-        [Authorize]
         [HttpPut]
         [Route("EditGame/{id}")]
         public async Task<IActionResult> EditGame([FromBody] EditGameViewModel editedGame, int id)
         {
             return new OkObjectResult(await _gamesService.EditGame(editedGame, id));
         }
-        [Authorize]
         [HttpDelete]
         [Route("DeleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)

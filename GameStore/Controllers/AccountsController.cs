@@ -1,6 +1,7 @@
 ﻿using GameStore.Models;
 using GameStore.Services;
 using GameStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +15,12 @@ namespace GameStore.Controllers
     {
         private readonly AccountsService _accountsService;
         private readonly UserManager<UserModel> _userManager;
-        public AccountsController(UserManager<UserModel> userManager,AccountsService accountsService)
+        private readonly SignInManager<UserModel> _signInManager;
+        public AccountsController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, AccountsService accountsService)
         {
             _accountsService = accountsService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         [HttpPost]
         [Route("RegisterUser")]
@@ -31,6 +34,15 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _accountsService.LoginUser(loginInput));
         }
+        [Authorize]
+        [HttpPost]
+        [Route("SignOutUser")]
+        public async Task<IActionResult> SignOutUser()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(); 
+        }
+
     }
 }
 
