@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using GameStore.ValidateData;
 
 namespace GameStore.Data.Repositories.FilterRepository
 {
@@ -18,7 +19,7 @@ namespace GameStore.Data.Repositories.FilterRepository
         }
         public Task<List<GameModel>> FilterGamesByName(List<GameFilter> gamesFilters)
         {
-            gamesFilters = ValidateFilters(gamesFilters);
+            ValidateFilter.ValidateFilters(gamesFilters);
 
             var games = _context.Games.AsQueryable();
 
@@ -33,7 +34,7 @@ namespace GameStore.Data.Repositories.FilterRepository
         }
         public Task<List<GamesAndGenresModel>> FilterGamesByGenreId(List<GameFilter> gamesFilters)
         {
-            gamesFilters = ValidateFilters(gamesFilters);
+            ValidateFilter.ValidateFilters(gamesFilters);
 
             var games = _context.GamesAndGenres.AsQueryable();
 
@@ -55,20 +56,6 @@ namespace GameStore.Data.Repositories.FilterRepository
         private IQueryable<GameModel> ApplyNameFilters(IQueryable<GameModel> games, GameFilter gameFilter)
         {
             return games.Where(game => game.GameName.Contains(gameFilter.PropertyValue));
-        }
-
-        private List<GameFilter> ValidateFilters(List<GameFilter> gameFilters)
-        {
-            if (gameFilters == null)
-            {
-                return new List<GameFilter>();
-            }
-
-            foreach (var filter in gameFilters)
-            {
-                filter.PropertyValue ??= "";
-            }
-            return gameFilters;
         }
     }
 }

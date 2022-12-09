@@ -1,11 +1,6 @@
 ﻿using GameStore.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
 
 namespace GameStore.Data
 {
@@ -47,19 +42,6 @@ namespace GameStore.Data
                 .HasForeignKey(x => x.GenreId);
 
             base.OnModelCreating(builder);
-        }
-        public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            ChangeTracker.Entries<CommentModel>()
-                .Where(e => e.State == EntityState.Deleted)
-                .ToList()
-                .ForEach(e =>
-                {
-                    e.State = EntityState.Modified;
-                    e.Entity.DeletedAt = DateTime.Now;
-
-                });
-            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

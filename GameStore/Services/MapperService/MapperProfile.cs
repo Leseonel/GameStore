@@ -13,6 +13,8 @@ namespace GameStore.Services.MapperService
 
             CreateMap<UserModel, UserLoginResponseViewModel>()
                 .ForMember(dest => dest.UserId, t => t.MapFrom(m => m.Id)).ReverseMap();
+
+            CreateMap<CommentModel, CommentViewModel>().ReverseMap();
         }
     }
 }

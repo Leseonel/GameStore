@@ -1,9 +1,9 @@
 ﻿using GameStore.CustomExceptions;
 using GameStore.Filters.Enums;
 using GameStore.Models;
+using GameStore.ValidateData;
 using GameStore.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,18 +26,13 @@ namespace GameStore.Data.Repositories.GameRepository
         public async Task<GameModel> GetGameById(int id)
         {
             GameModel game = await _context.Games.Where(games => games.GameId == id).FirstOrDefaultAsync();
-            if (game == null)
-            {
-                throw new DoesNotExistsException("Game not found with that ID");
-            }
+            ValidateOnNull<GameModel>.ValidateDataOnNull(game);
             return game;
         }
         public async Task<GameModel> AddGame(CreateGameViewModel newGame)
         {
-            if (newGame == null || string.IsNullOrEmpty(newGame.GameName))
-            {
-                throw new ArgumentNullException(nameof(newGame));
-            }
+            ValidateOnNull<CreateGameViewModel>.ValidateDataOnNull(newGame);
+            ValidateOnNullAndEmpty<string>.ValidateDataOnNullAndEmpty(newGame.GameName);
             if (await _context.Games.Where(g => g.GameName == newGame.GameName).AnyAsync())
             {
                 throw new AlreadyExistsException("This game already exists in GameStore");

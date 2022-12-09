@@ -9,6 +9,7 @@ using GameStore.CustomExceptions;
 using System.Text;
 using AutoMapper;
 using GameStore.Services.TokenService;
+using GameStore.ValidateData;
 
 namespace GameStore.Services
 {
@@ -29,10 +30,8 @@ namespace GameStore.Services
         }
         public async Task<UserViewModel> RegisterUser(UserRegistrationViewModel userInfo)
         {
-            if (userInfo == null)
-            {
-                throw new ArgumentNullException(nameof(userInfo));
-            }
+            ValidateOnNull<UserRegistrationViewModel>.ValidateDataOnNull(userInfo);
+
             var user = new UserModel { UserName = userInfo.UserName, Email = userInfo.Email, FirstName = userInfo.FirstName, LastName = userInfo.LastName };
             var result = await _userManager.CreateAsync(user, userInfo.Password);
 
@@ -59,6 +58,7 @@ namespace GameStore.Services
                 await _userManager.SetAuthenticationTokenAsync(user, "JwtBearer", "Access Token", accessToken);
                 var loggedUser = _mapper.Map<UserLoginResponseViewModel>(user);
                 loggedUser.AccessToken = accessToken;
+
                 return loggedUser;
             }
             if(!result.Succeeded)
