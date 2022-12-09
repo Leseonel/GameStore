@@ -1,4 +1,5 @@
 ﻿using GameStore.Data.Repositories.FilterRepository;
+using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.Repositories.GenreRepository;
 using GameStore.Data.Repositories.UserRepository;
@@ -14,6 +15,7 @@ namespace GameStore.Data.UnitOfWork
         public IGenresRepository Genres { get; private set; }
         public IFilterRepository Filters { get; private set; }
         public IUsersRepository Users { get; private set; }
+        public IGameCommentsRepository Comments { get; private set; }
 
         public UnitOfWork(GameStoreContext context)
         {
@@ -22,6 +24,7 @@ namespace GameStore.Data.UnitOfWork
             Genres = new GenresRepository(_context);
             Filters = new FilterRepository(_context);
             Users = new UsersRepository(_context);
+            Comments = new GameCommentsRepository(_context);
         }
 
         public int Complete()
