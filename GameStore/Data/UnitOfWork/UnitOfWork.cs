@@ -1,4 +1,5 @@
-﻿using GameStore.Data.Repositories.FilterRepository;
+﻿using AutoMapper;
+using GameStore.Data.Repositories.FilterRepository;
 using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.Repositories.GenreRepository;
@@ -17,14 +18,14 @@ namespace GameStore.Data.UnitOfWork
         public IUsersRepository Users { get; private set; }
         public IGameCommentsRepository Comments { get; private set; }
 
-        public UnitOfWork(GameStoreContext context)
+        public UnitOfWork(GameStoreContext context,IMapper mapper)
         {
             _context = context;
             Games = new GamesRepository(_context);
             Genres = new GenresRepository(_context);
             Filters = new FilterRepository(_context);
             Users = new UsersRepository(_context);
-            Comments = new GameCommentsRepository(_context);
+            Comments = new GameCommentsRepository(_context, mapper);
         }
 
         public int Complete()

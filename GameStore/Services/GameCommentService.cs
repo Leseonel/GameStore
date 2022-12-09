@@ -1,8 +1,7 @@
 ﻿using GameStore.Data.Repositories.GameCommentRepository;
-using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
-using Nest;
+using GameStore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,13 +26,13 @@ namespace GameStore.Services
         {
             return _gameCommentsRepository.GetAllCommentsForGame(gameId);
         }
-        public Task<CommentModel> AddCommentToGame(CommentModel comment, Guid? parentCommentId)
+        public Task<CommentViewModel> AddCommentToGame(CommentViewModel comment, Guid? parentCommentId)
         {
             return _gameCommentsRepository.AddCommentToGame(comment, parentCommentId);
         }
         public Task<CommentModel> EditComment(CommentModel comment, Guid id)
         {
-            return _gameCommentsRepository.AddCommentToGame(comment, id);
+            return _gameCommentsRepository.EditComment(comment, id);
         }
         public Task<CommentModel> RestoreComment(Guid commentId)
         {
@@ -42,6 +41,10 @@ namespace GameStore.Services
         public Task<CommentModel> DeleteComment(Guid id)
         {
             return _gameCommentsRepository.DeleteComment(id);
+        }
+        public Task<CommentModel> DeleteCommentForUser(Guid id)
+        {
+            return _gameCommentsRepository.DeleteCommentForUser(id);
         }
 
     }

@@ -18,5 +18,9 @@ namespace GameStore.Services
             _unitOfWork = unitOfWork;
             _usersRepository = _unitOfWork.Users;
         }
+        public Task<UserViewModel> EditUser(UserViewModel user)
+        {
+            return _usersRepository.EditUser(user);
+        }
     }
 }

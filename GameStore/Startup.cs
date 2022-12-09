@@ -58,6 +58,7 @@ namespace GameStore
             services.AddScoped<FilterService>();
             services.AddScoped<GenresService>();
             services.AddScoped<AccountsService>();
+            services.AddScoped<GameCommentService>();
 
             services.AddScoped<JwtTokenService>();//JwtToken
 

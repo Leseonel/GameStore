@@ -1,7 +1,7 @@
 ﻿using GameStore.CustomExceptions;
 using GameStore.Models;
+using GameStore.ValidateData;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,10 +18,7 @@ namespace GameStore.Data.Repositories.GenreRepository
         public async Task<List<GenreModel>> GetAllGenres()
         {
             List<GenreModel> genres = await _context.Genres.ToListAsync();
-            if (genres.Count == 0)
-            {
-                throw new DoesNotExistsException("Genres Not Found");
-            }
+
             return genres;
         }
 
@@ -36,10 +33,7 @@ namespace GameStore.Data.Repositories.GenreRepository
         }
         public async Task<GenreModel> AddGenre(GenreModel genre, int? genreId)
         {
-            if (genre == null)
-            {
-                throw new ArgumentNullException(nameof(genre));
-            }
+            ValidateOnNull<GenreModel>.ValidateDataOnNull(genre);
             if (genreId == null)
             {
                 if (await _context.Genres.Where(x => x.GenreName == genre.GenreName).AnyAsync())
