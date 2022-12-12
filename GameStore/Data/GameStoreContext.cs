@@ -29,15 +29,16 @@ namespace GameStore.Data
             builder.Entity<GamesAndGenresModel>()
                 .HasIndex(u => new { u.GameId, u.GenreId })
                 .IsUnique();
+
             builder.Entity<GamesAndGenresModel>()
                 .HasKey(x => x.GamesAndGenresId);
 
             builder.Entity<GamesAndGenresModel>()
-                .HasOne<GameModel>(x => x.Game)
+                .HasOne(x => x.Game)
                 .WithMany(x => x.GameAndGenre)
                 .HasForeignKey(x => x.GameId);
             builder.Entity<GamesAndGenresModel>()
-                .HasOne<GenreModel>(x => x.Genre)
+                .HasOne(x => x.Genre)
                 .WithMany(x => x.GameAndGenre)
                 .HasForeignKey(x => x.GenreId);
 

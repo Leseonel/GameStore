@@ -6,6 +6,7 @@ namespace GameStore.Models
     {
         [Key]
         public int PaymentTypeId { get; set; }
+
         public string PaymentTypeName { get; set; }
     }
 }
