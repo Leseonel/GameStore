@@ -6,6 +6,7 @@ namespace GameStore.Models
     {
         [Key]
         public int OrderedGamesId { get; set; }
+
         public double TotalPrice { get; set; }
     }
 }

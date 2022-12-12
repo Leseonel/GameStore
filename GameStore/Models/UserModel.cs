@@ -9,12 +9,18 @@ namespace GameStore.Models
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string LastName { get; set; }
+
         public string Country { get; set; }
+
         public string ZipCode { get; set; }
+
         public DateTime RegistrationDate { get; set; }
+
         public string AvatarUrl { get; set; }
+
         [ForeignKey("GenderModel")]
         public Guid GenderId { get; set; }
     }

@@ -7,6 +7,7 @@ namespace GameStore.Models
     {
         [Key]
         public Guid GenderId { get; set; }
+
         public string GenderName { get; set; }
     }
 }
