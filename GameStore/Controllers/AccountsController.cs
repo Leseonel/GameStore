@@ -42,7 +42,17 @@ namespace GameStore.Controllers
             await _signInManager.SignOutAsync();
             return Ok(); 
         }
-
+        [HttpPost]
+        [Route("CreateNewTokens")]
+        public async Task<IActionResult> CreateNewTokensForUser(string refreshToken)
+        {
+            var result = await _accountsService.RefreshAccesToken(refreshToken);
+            if (result == null)
+            {
+                return Unauthorized();
+            }
+            return new OkObjectResult(result);
+        }
     }
 }
 

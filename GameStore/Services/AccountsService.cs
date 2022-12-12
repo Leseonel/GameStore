@@ -10,6 +10,7 @@ using System.Text;
 using AutoMapper;
 using GameStore.Services.TokenService;
 using GameStore.ValidateData;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace GameStore.Services
 {
@@ -20,13 +21,17 @@ namespace GameStore.Services
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly IMapper _mapper;
-        public AccountsService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IUnitOfWork unitOfWork,IMapper mapper, JwtTokenService jwtTokenService)
+        private readonly IMemoryCache _inMemoryCache;
+
+        public AccountsService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IUnitOfWork unitOfWork,
+            IMapper mapper, JwtTokenService jwtTokenService, IMemoryCache inMemoryCache)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtTokenService = jwtTokenService;
+            _inMemoryCache = inMemoryCache;
         }
         public async Task<UserViewModel> RegisterUser(UserRegistrationViewModel userInfo)
         {
@@ -55,15 +60,41 @@ namespace GameStore.Services
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var accessToken = await _jwtTokenService.GenerateJwtAccessToken(user, roles);
+                var refreshToken = await _jwtTokenService.GenerateJwtRefreshToken();
                 await _userManager.SetAuthenticationTokenAsync(user, "JwtBearer", "Access Token", accessToken);
                 var loggedUser = _mapper.Map<UserLoginResponseViewModel>(user);
                 loggedUser.AccessToken = accessToken;
+                loggedUser.RefreshToken = refreshToken;
+                _inMemoryCache.Set(refreshToken, user.Id, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddDays(2)
+                });
 
                 return loggedUser;
             }
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 throw new FailedToLoginException("Login Failed Incorrect Credintials");
+            }
+            return new UserLoginResponseViewModel();
+        }
+        public async Task<UserLoginResponseViewModel> RefreshAccesToken(string refreshToken)
+        {
+            if (await _jwtTokenService.ValidateRefreshToken(refreshToken))
+            {
+                var userId =  _inMemoryCache.Get(refreshToken);
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+                var roles = await _userManager.GetRolesAsync(user);
+                var accessToken = await _jwtTokenService.GenerateJwtAccessToken(user, roles);
+                var newRefreshToken = await _jwtTokenService.GenerateJwtRefreshToken();
+
+                await _userManager.SetAuthenticationTokenAsync(user, "JwtBearer", "Access Token", accessToken);
+                 _inMemoryCache.Remove(refreshToken);
+                _inMemoryCache.Set(newRefreshToken, user.Id);
+                var loggedUser = _mapper.Map<UserLoginResponseViewModel>(user);
+                loggedUser.AccessToken = accessToken;
+                loggedUser.RefreshToken = newRefreshToken;
+                return loggedUser;
             }
             return new UserLoginResponseViewModel();
         }
