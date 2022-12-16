@@ -1,16 +1,9 @@
-﻿using GameStore.Data;
-using GameStore.Filters.Enums;
-using GameStore.Filters;
+﻿using GameStore.Filters;
 using GameStore.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System;
-using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Data.Repositories.FilterRepository;
-using Nest;
 
 namespace GameStore.Services
 {

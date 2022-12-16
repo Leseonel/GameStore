@@ -4,8 +4,6 @@ using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameStore.Controllers
@@ -40,7 +38,7 @@ namespace GameStore.Controllers
         public async Task<IActionResult> SignOutUser()
         {
             await _signInManager.SignOutAsync();
-            return Ok(); 
+            return Ok();
         }
         [HttpPost]
         [Route("CreateNewTokens")]
