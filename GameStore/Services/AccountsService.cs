@@ -67,7 +67,7 @@ namespace GameStore.Services
                 loggedUser.RefreshToken = refreshToken;
                 _inMemoryCache.Set(refreshToken, user.Id, new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpiration = DateTime.Now.AddDays(2)
+                    AbsoluteExpiration = DateTime.Now.AddMonths(6)
                 });
 
                 return loggedUser;
@@ -90,7 +90,10 @@ namespace GameStore.Services
 
                 await _userManager.SetAuthenticationTokenAsync(user, "JwtBearer", "Access Token", accessToken);
                  _inMemoryCache.Remove(refreshToken);
-                _inMemoryCache.Set(newRefreshToken, user.Id);
+                _inMemoryCache.Set(newRefreshToken, user.Id, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddMonths(6)
+                });
                 var loggedUser = _mapper.Map<UserLoginResponseViewModel>(user);
                 loggedUser.AccessToken = accessToken;
                 loggedUser.RefreshToken = newRefreshToken;
