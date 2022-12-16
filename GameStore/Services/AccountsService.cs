@@ -24,7 +24,7 @@ namespace GameStore.Services
         private readonly IMemoryCache _inMemoryCache;
 
         public AccountsService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IUnitOfWork unitOfWork,
-            IMapper mapper, JwtTokenService jwtTokenService, IMemoryCache inMemoryCache)
+            IMapper mapper, JwtTokenService jwtTokenService,IMemoryCache inMemoryCache)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -82,14 +82,14 @@ namespace GameStore.Services
         {
             if (await _jwtTokenService.ValidateRefreshToken(refreshToken))
             {
-                var userId =  _inMemoryCache.Get(refreshToken);
+                var userId = _inMemoryCache.Get(refreshToken);
                 var user = await _userManager.FindByIdAsync(userId.ToString());
                 var roles = await _userManager.GetRolesAsync(user);
                 var accessToken = await _jwtTokenService.GenerateJwtAccessToken(user, roles);
                 var newRefreshToken = await _jwtTokenService.GenerateJwtRefreshToken();
 
                 await _userManager.SetAuthenticationTokenAsync(user, "JwtBearer", "Access Token", accessToken);
-                 _inMemoryCache.Remove(refreshToken);
+                _inMemoryCache.Remove(refreshToken);
                 _inMemoryCache.Set(newRefreshToken, user.Id, new MemoryCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTime.Now.AddMonths(6)
