@@ -32,14 +32,6 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _accountsService.LoginUser(loginInput));
         }
-        [Authorize]
-        [HttpPost]
-        [Route("SignOutUser")]
-        public async Task<IActionResult> SignOutUser()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok();
-        }
         [HttpPost]
         [Route("CreateNewTokens")]
         public async Task<IActionResult> CreateNewTokensForUser(string refreshToken)
