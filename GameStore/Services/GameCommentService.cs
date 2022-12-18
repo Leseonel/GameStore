@@ -22,7 +22,7 @@ namespace GameStore.Services
         {
             return _gameCommentsRepository.GetAllGameAllComments();
         }
-        public Task<IList<CommentModel>> GetAllCommentsForGame(int gameId)
+        public Task<IList<CommentModel>> GetAllCommentsForGame(Guid gameId)
         {
             return _gameCommentsRepository.GetAllCommentsForGame(gameId);
         }

@@ -4,6 +4,7 @@ using GameStore.Models;
 using GameStore.ValidateData;
 using GameStore.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace GameStore.Data.Repositories.GameRepository
             return _context.Games.ToListAsync();
         }
 
-        public async Task<GameModel> GetGameById(int id)
+        public async Task<GameModel> GetGameById(Guid id)
         {
             GameModel game = await _context.Games.Where(games => games.GameId == id).FirstOrDefaultAsync();
             ValidateOnNull<GameModel>.ValidateDataOnNull(game);
@@ -60,7 +61,7 @@ namespace GameStore.Data.Repositories.GameRepository
 
             return savedGame;
         }
-        private async Task<GameModel> AddGenresToGame(GameModel game, List<int> genreIds)
+        private async Task<GameModel> AddGenresToGame(GameModel game, List<Guid> genreIds)
         {
             game.GameAndGenre = new List<GamesAndGenresModel>();
             foreach (var genreId in genreIds)
@@ -74,7 +75,7 @@ namespace GameStore.Data.Repositories.GameRepository
 
             return game;
         }
-        public async Task<GameModel> EditGame(EditGameViewModel editedGame, int id)
+        public async Task<GameModel> EditGame(EditGameViewModel editedGame, Guid id)
         {
             var gameToUpdate = await _context.Games.Where(game => game.GameId == id).Include(x => x.GameAndGenre).FirstOrDefaultAsync();
             if (gameToUpdate != null)
@@ -107,7 +108,7 @@ namespace GameStore.Data.Repositories.GameRepository
 
             return gameToUpdate;
         }
-        public async Task<GameModel> DeleteGame(int id)
+        public async Task<GameModel> DeleteGame(Guid id)
         {
             GameModel findGame = await _context.Games.Where(x => x.GameId == id).FirstOrDefaultAsync();
             if (findGame == null)

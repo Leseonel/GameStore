@@ -50,7 +50,7 @@ namespace GameStore.Data.Repositories.FilterRepository
 
         private IQueryable<GamesAndGenresModel> ApplyIdFilters(IQueryable<GamesAndGenresModel> genres, GameFilter gameFilter)
         {
-            return genres.Where(game => game.GenreId == Int32.Parse(gameFilter.PropertyValue));
+            return genres.Where(game => game.GenreId == Guid.Parse(gameFilter.PropertyValue));
         }
 
         private IQueryable<GameModel> ApplyNameFilters(IQueryable<GameModel> games, GameFilter gameFilter)

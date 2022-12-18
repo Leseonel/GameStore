@@ -1,4 +1,5 @@
 using GameStore.Data;
+using GameStore.Data.Repositories.CartRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
 using GameStore.Services;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +32,7 @@ namespace GameStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Identity For Authentication Addin + UserModel
+            // Identity For Authentication Addin + UserModel
             services.AddIdentity<UserModel, IdentityRole>()
                 .AddEntityFrameworkStores<GameStoreContext>()
                 .AddDefaultTokenProviders();
@@ -45,7 +45,7 @@ namespace GameStore
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-                // Unique email
+                // Unique Email
                 options.User.RequireUniqueEmail = true;
             });
 
@@ -60,6 +60,10 @@ namespace GameStore
             services.AddScoped<GenresService>();
             services.AddScoped<AccountsService>();
             services.AddScoped<GameCommentService>();
+            services.AddScoped<CartsService>();
+
+            // Add Scoped Repositories
+            services.AddScoped<ICartRepository, CartRepository>();
 
             services.AddScoped<JwtTokenService>();//JwtToken
 
