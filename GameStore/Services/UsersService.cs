@@ -1,9 +1,6 @@
 ﻿using GameStore.Data.Repositories.UserRepository;
 using GameStore.Data.UnitOfWork;
-using GameStore.Models;
 using GameStore.ViewModels;
-using Microsoft.AspNetCore.Identity;
-using System;
 using System.Threading.Tasks;
 
 namespace GameStore.Services

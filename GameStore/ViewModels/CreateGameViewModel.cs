@@ -19,6 +19,6 @@ namespace GameStore.ViewModels
 
         public string GamePublisher { get; set; }
 
-        public List<int> GenreIds { get; set; }
+        public List<Guid> GenreIds { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.Models
@@ -6,23 +7,25 @@ namespace GameStore.Models
     public class OrderModel
     {
         [Key]
-        public int OrderId { get; set; }
-
-        public string OrderComment { get; set; }
-
-        [ForeignKey("OrderedGamesModel")]
-        public int OrderedGamesId { get; set; }
+        public Guid OrderId { get; set; }
 
         [ForeignKey("UserModel")]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [ForeignKey("GameModel")]
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
 
-        [ForeignKey("PaymentTypeModel")]
-        public int PaymentTypeId { get; set; }
+        [Range(0, int.MaxValue)]
+        public int AmountOfGames { get; set; }
+
+        public double Price { get; set; }
+
+        public double TotalPrice { get; set; }
 
         [ForeignKey("CurrencyModel")]
-        public int CurrencyId { get; set; }
+        public Guid CurrencyId { get; set; }
+
+        [ForeignKey("CartModel")]
+        public Guid? CartId { get; set; }
     }
 }

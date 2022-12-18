@@ -101,20 +101,6 @@ namespace GameStore.Data.SeedData
                 context.Genres.Add(c);
             }
             context.SaveChanges();
-
-            var gamesAndGenres = new GamesAndGenresModel[]
-{
-            new GamesAndGenresModel{GameId=3,GenreId=6},
-            new GamesAndGenresModel{GameId=2,GenreId=8},
-            new GamesAndGenresModel{GameId=1,GenreId=1},
-            new GamesAndGenresModel{GameId=4,GenreId=4},
-            new GamesAndGenresModel{GameId = 5,GenreId = 4},
-};
-            foreach (GamesAndGenresModel c in gamesAndGenres)
-            {
-                context.GamesAndGenres.Add(c);
-            }
-            context.SaveChanges();
         }
     }
 }

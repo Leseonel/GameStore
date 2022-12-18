@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Data.Repositories.CartRepository;
 using GameStore.Data.Repositories.FilterRepository;
 using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.Repositories.GameRepository;
@@ -17,6 +18,7 @@ namespace GameStore.Data.UnitOfWork
         public IFilterRepository Filters { get; private set; }
         public IUsersRepository Users { get; private set; }
         public IGameCommentsRepository Comments { get; private set; }
+        public ICartRepository Carts { get; private set; }
 
         public UnitOfWork(GameStoreContext context,IMapper mapper)
         {
@@ -26,6 +28,7 @@ namespace GameStore.Data.UnitOfWork
             Filters = new FilterRepository(_context);
             Users = new UsersRepository(_context);
             Comments = new GameCommentsRepository(_context, mapper);
+            Carts = new CartRepository(_context);
         }
 
         public int Complete()

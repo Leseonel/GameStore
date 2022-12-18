@@ -1,6 +1,7 @@
 ﻿using GameStore.Data.Repositories.GenreRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,21 +23,21 @@ namespace GameStore.Services
             return _genresRepository.GetAllGenres();
         }
 
-        public Task<GenreModel> GetGenreById(int id)
+        public Task<GenreModel> GetGenreById(Guid id)
         {
             return _genresRepository.GetGenreById(id);
         }
 
-        public Task<GenreModel> AddGenre(GenreModel genre, int? genreId)
+        public Task<GenreModel> AddGenre(GenreModel genre, Guid? genreId)
         {
             return _genresRepository.AddGenre(genre, genreId);
         }
-        public Task<GenreModel> EditGenre(GenreModel editedGenre, int id)
+        public Task<GenreModel> EditGenre(GenreModel editedGenre, Guid id)
         {
             return _genresRepository.EditGenre(editedGenre, id);
         }
 
-        public Task<GenreModel> DeleteGenre(int id)
+        public Task<GenreModel> DeleteGenre(Guid id)
         {
             return _genresRepository.DeleteGenre(id);
         }

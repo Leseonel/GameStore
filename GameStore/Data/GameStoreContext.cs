@@ -11,13 +11,14 @@ namespace GameStore.Data
         }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
-        public DbSet<OrderedGamesModel> OrderedGames { get; set; }
+        public DbSet<OrderContactsInfoModel> OrderWithUserContact { get; set; }
         public DbSet<GenreModel> Genres { get; set; }
         public DbSet<GenderModel> Genders { get; set; }
         public DbSet<GameModel> Games { get; set; }
         public DbSet<CurrencyModel> Currencys { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
         public DbSet<GamesAndGenresModel> GamesAndGenres { get; set; }
+        public DbSet<CartModel> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

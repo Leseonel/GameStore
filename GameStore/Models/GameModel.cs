@@ -7,7 +7,7 @@ namespace GameStore.Models
     public class GameModel
     {
         [Key]
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
         [Required]
         public string GameName { get; set; }
 

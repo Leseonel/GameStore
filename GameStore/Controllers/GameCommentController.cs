@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace GameStore.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class GameCommentController : Controller
     {
         private readonly GameCommentService _gameCommentsService;
@@ -26,7 +26,7 @@ namespace GameStore.Controllers
         }
         [HttpGet]
         [Route("AllGameCommentsForGame")]
-        public async Task<IActionResult> GetAllCommentsForGame(int gameId)
+        public async Task<IActionResult> GetAllCommentsForGame(Guid gameId)
         {
             return new OkObjectResult(await _gameCommentsService.GetAllCommentsForGame(gameId));
         }
@@ -50,13 +50,13 @@ namespace GameStore.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteComment/{Guid}")]
+        [Route("DeleteComment/{id}")]
         public async Task<IActionResult> DeleteComment(Guid id)
         {
             return new OkObjectResult(await _gameCommentsService.DeleteComment(id));
         }
         [HttpDelete]
-        [Route("DeleteCommentForUser/{Guid}")]
+        [Route("DeleteCommentForUser/{id}")]
         public async Task<IActionResult> DeleteCommentForUser(Guid id)
         {
             return new OkObjectResult(await _gameCommentsService.DeleteCommentForUser(id));

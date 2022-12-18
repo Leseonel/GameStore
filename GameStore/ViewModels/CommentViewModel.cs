@@ -20,7 +20,7 @@ namespace GameStore.ViewModels
 
         public Guid UserId { get; set; }
 
-        public int GameId { get; set; }//guid gadakvana
+        public Guid GameId { get; set; }
 
         public Guid? ParentId { get; set; }
 

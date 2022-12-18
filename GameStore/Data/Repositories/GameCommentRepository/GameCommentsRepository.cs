@@ -27,7 +27,7 @@ namespace GameStore.Data.Repositories.GameCommentRepository
 
             return comments;
         }
-        public async Task<IList<CommentModel>> GetAllCommentsForGame(int gameId)
+        public async Task<IList<CommentModel>> GetAllCommentsForGame(Guid gameId)
         {
             return await _context.Comments.Where(x => x.GameId == gameId).ToListAsync();
         }

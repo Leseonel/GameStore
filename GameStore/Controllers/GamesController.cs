@@ -3,6 +3,7 @@ using GameStore.Services;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace GameStore.Controllers
 
         [HttpGet]
         [Route("Game/{id}")]
-        public async Task<IActionResult> GetGame(int id)
+        public async Task<IActionResult> GetGame(Guid id)
         {
             return new OkObjectResult(await _gamesService.GetGameById(id));
         }
@@ -53,13 +54,13 @@ namespace GameStore.Controllers
         }
         [HttpPut]
         [Route("EditGame/{id}")]
-        public async Task<IActionResult> EditGame([FromBody] EditGameViewModel editedGame, int id)
+        public async Task<IActionResult> EditGame([FromBody] EditGameViewModel editedGame, Guid id)
         {
             return new OkObjectResult(await _gamesService.EditGame(editedGame, id));
         }
         [HttpDelete]
         [Route("DeleteGame/{id}")]
-        public async Task<IActionResult> DeleteGame(int id)
+        public async Task<IActionResult> DeleteGame(Guid id)
         {
             return new OkObjectResult(await _gamesService.DeleteGame(id));
         }

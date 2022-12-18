@@ -2,6 +2,7 @@
 using GameStore.Models;
 using GameStore.ValidateData;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace GameStore.Data.Repositories.GenreRepository
             return genres;
         }
 
-        public async Task<GenreModel> GetGenreById(int id)
+        public async Task<GenreModel> GetGenreById(Guid id)
         {
             GenreModel genre = await _context.Genres.Where(genres => genres.GenreId == id).FirstOrDefaultAsync();
             if (genre == null)
@@ -31,7 +32,7 @@ namespace GameStore.Data.Repositories.GenreRepository
             }
             return genre;
         }
-        public async Task<GenreModel> AddGenre(GenreModel genre, int? genreId)
+        public async Task<GenreModel> AddGenre(GenreModel genre, Guid? genreId)
         {
             ValidateOnNull<GenreModel>.ValidateDataOnNull(genre);
             if (genreId == null)
@@ -53,7 +54,7 @@ namespace GameStore.Data.Repositories.GenreRepository
             return genre;
         }
 
-        public async Task<GenreModel> EditGenre(GenreModel editedGenre, int id)
+        public async Task<GenreModel> EditGenre(GenreModel editedGenre, Guid id)
         {
             var genreToUpdate = await _context.Genres.Where(genres => genres.GenreId == id).FirstOrDefaultAsync();
             if (genreToUpdate == null)
@@ -66,7 +67,7 @@ namespace GameStore.Data.Repositories.GenreRepository
             return genreToUpdate;
         }
         
-        public async Task<GenreModel> DeleteGenre(int id)
+        public async Task<GenreModel> DeleteGenre(Guid id)
         {
             GenreModel findGenre = await _context.Genres.Where(x => x.GenreId == id).FirstOrDefaultAsync();
             if (findGenre == null)

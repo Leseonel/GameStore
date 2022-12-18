@@ -9,7 +9,7 @@ namespace GameStore.Data.Repositories.GameCommentRepository
     public interface IGameCommentsRepository
     {
         Task<List<CommentModel>> GetAllGameAllComments();
-        Task<IList<CommentModel>> GetAllCommentsForGame(int gameId);
+        Task<IList<CommentModel>> GetAllCommentsForGame(Guid gameId);
         Task<CommentViewModel> AddCommentToGame(CommentViewModel comment, Guid? parentCommentId);
         Task<CommentModel> EditComment(CommentModel comment, Guid id);
         Task<CommentModel> RestoreComment(Guid commentId);

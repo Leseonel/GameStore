@@ -1,4 +1,5 @@
 ﻿using GameStore.Data.Repositories;
+using GameStore.Data.Repositories.CartRepository;
 using GameStore.Data.Repositories.FilterRepository;
 using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.Repositories.GameRepository;
@@ -15,6 +16,7 @@ namespace GameStore.Data.UnitOfWork
         IFilterRepository Filters { get; }
         IUsersRepository Users { get; }
         IGameCommentsRepository Comments { get; }
+        ICartRepository Carts { get; }
         int Complete();
     }
 }

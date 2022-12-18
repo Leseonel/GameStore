@@ -7,7 +7,7 @@ namespace GameStore.ViewModels
 {
     public class EditGameViewModel
     {
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
 
         public string GameName { get; set; }
 
