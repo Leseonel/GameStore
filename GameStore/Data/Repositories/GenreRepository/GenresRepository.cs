@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Repositories.GenreRepository
 {
-    public class GenresRepository: IGenresRepository
+    public class GenresRepository : IGenresRepository
     {
         private readonly GameStoreContext _context;
         public GenresRepository(GameStoreContext context)

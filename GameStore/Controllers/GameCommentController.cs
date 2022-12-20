@@ -1,5 +1,6 @@
 ﻿using GameStore.Models;
 using GameStore.Services;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,8 @@ namespace GameStore.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class GameCommentController : Controller
     {
-        private readonly GameCommentService _gameCommentsService;
-        public GameCommentController(GameCommentService gameCommentService)
+        private readonly IGameCommentService _gameCommentsService;
+        public GameCommentController(IGameCommentService gameCommentService)
         {
             _gameCommentsService = gameCommentService;
         }

@@ -1,6 +1,4 @@
-﻿using GameStore.CustomExceptions;
-using GameStore.Models;
-using GameStore.Services;
+﻿using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +11,8 @@ namespace GameStore.Controllers
     public class UsersController : Controller
     {
 
-        private readonly UsersService _usersService;
-        public UsersController(UsersService usersService)
+        private readonly IUsersService _usersService;
+        public UsersController(IUsersService usersService)
         {
             _usersService = usersService;
         }

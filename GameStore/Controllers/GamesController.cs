@@ -1,5 +1,5 @@
 ﻿using GameStore.Filters;
-using GameStore.Services;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +13,9 @@ namespace GameStore.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class GamesController : Controller
     {
-        private readonly GamesService _gamesService;
-        private readonly FilterService _filterService;
-        public GamesController(GamesService gamesService,FilterService filterService)
+        private readonly IGamesService _gamesService;
+        private readonly IFilterService _filterService;
+        public GamesController(IGamesService gamesService,IFilterService filterService)
         {
             _gamesService = gamesService;
             _filterService = filterService;

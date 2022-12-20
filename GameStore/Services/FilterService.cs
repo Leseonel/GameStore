@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameStore.Data.UnitOfWork;
 using GameStore.Data.Repositories.FilterRepository;
+using GameStore.Services.ServiceInterfaces;
 
 namespace GameStore.Services
 {
-    public class FilterService
+    public class FilterService : IFilterService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFilterRepository _filterRepository;
