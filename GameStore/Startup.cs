@@ -53,6 +53,7 @@ namespace GameStore
 
             services.AddControllers().AddNewtonsoftJson(x =>
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             // Add Scoped Services
             services.AddScoped<GamesService>();
             services.AddScoped<UsersService>();
@@ -61,9 +62,6 @@ namespace GameStore
             services.AddScoped<AccountsService>();
             services.AddScoped<GameCommentService>();
             services.AddScoped<CartsService>();
-
-            // Add Scoped Repositories
-            services.AddScoped<ICartRepository, CartRepository>();
 
             services.AddScoped<JwtTokenService>();//JwtToken
 
