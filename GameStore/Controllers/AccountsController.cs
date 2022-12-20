@@ -1,5 +1,5 @@
 ﻿using GameStore.Models;
-using GameStore.Services;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,10 @@ namespace GameStore.Controllers
     [Route("api/[controller]")]
     public class AccountsController : Controller
     {
-        private readonly AccountsService _accountsService;
+        private readonly IAccountsService _accountsService;
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
-        public AccountsController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, AccountsService accountsService)
+        public AccountsController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IAccountsService accountsService)
         {
             _accountsService = accountsService;
             _userManager = userManager;

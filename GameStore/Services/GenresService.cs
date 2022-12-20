@@ -1,13 +1,14 @@
 ﻿using GameStore.Data.Repositories.GenreRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
+using GameStore.Services.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameStore.Services
 {
-    public class GenresService
+    public class GenresService : IGenresService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenresRepository _genresRepository;

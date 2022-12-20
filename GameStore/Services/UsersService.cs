@@ -1,11 +1,12 @@
 ﻿using GameStore.Data.Repositories.UserRepository;
 using GameStore.Data.UnitOfWork;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using System.Threading.Tasks;
 
 namespace GameStore.Services
 {
-    public class UsersService
+    public class UsersService : IUsersService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersRepository _usersRepository;

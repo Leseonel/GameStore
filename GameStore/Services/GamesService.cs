@@ -2,6 +2,7 @@
 using GameStore.Data.Repositories.GameRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Services
 {
-    public class GamesService
+    public class GamesService : IGamesService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGamesRepository _gamesRepository;

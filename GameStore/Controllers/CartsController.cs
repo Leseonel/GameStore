@@ -1,16 +1,16 @@
 ﻿using GameStore.Models;
-using GameStore.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
+using GameStore.Services.ServiceInterfaces;
 
 namespace GameStore.Controllers
 {
     [Route("api/[controller]")]
     public class CartsController : Controller
     {
-        private readonly CartsService _cartsService;
-        public CartsController(CartsService cartsService)
+        private readonly ICartsService _cartsService;
+        public CartsController(ICartsService cartsService)
         {
             _cartsService = cartsService;
         }

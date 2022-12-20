@@ -11,24 +11,23 @@ using AutoMapper;
 using GameStore.Services.TokenService;
 using GameStore.ValidateData;
 using Microsoft.Extensions.Caching.Memory;
+using GameStore.Services.ServiceInterfaces;
 
 namespace GameStore.Services
 {
-    public class AccountsService
+    public class AccountsService : IAccountsService
     {
         private readonly JwtTokenService _jwtTokenService;
-        //private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _inMemoryCache;
 
-        public AccountsService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, /*IUnitOfWork unitOfWork,*/
+        public AccountsService(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager,
             IMapper mapper, JwtTokenService jwtTokenService,IMemoryCache inMemoryCache)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            //_unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtTokenService = jwtTokenService;
             _inMemoryCache = inMemoryCache;

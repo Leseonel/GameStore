@@ -1,5 +1,5 @@
 ﻿using GameStore.Models;
-using GameStore.Services;
+using GameStore.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,8 +11,8 @@ namespace GameStore.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class GenresController : Controller
     {
-        private readonly GenresService _genresService;
-        public GenresController(GenresService genresService)
+        private readonly IGenresService _genresService;
+        public GenresController(IGenresService genresService)
         {
             _genresService = genresService;
         }

@@ -1,6 +1,7 @@
 ﻿using GameStore.Data.Repositories.GameCommentRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Services
 {
-    public class GameCommentService
+    public class GameCommentService : IGameCommentService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGameCommentsRepository _gameCommentsRepository;

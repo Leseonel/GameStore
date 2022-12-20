@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GameStore.Data.Repositories.UserRepository
 {
-    public class UsersRepository: IUsersRepository
+    public class UsersRepository : IUsersRepository
     {
         private readonly GameStoreContext _context;
         public UsersRepository(GameStoreContext context)

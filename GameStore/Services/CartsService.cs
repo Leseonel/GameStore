@@ -2,16 +2,20 @@
 using GameStore.Models;
 using System.Threading.Tasks;
 using System;
+using GameStore.Services.ServiceInterfaces;
+using GameStore.Data.UnitOfWork;
 
 namespace GameStore.Services
 {
-    public class CartsService
+    public class CartsService : ICartsService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICartRepository _cartRepository;
 
-        public CartsService(ICartRepository cartRepository)
+        public CartsService(IUnitOfWork unitOfWork)
         {
-            _cartRepository = cartRepository;
+            _unitOfWork = unitOfWork;
+            _cartRepository = _unitOfWork.Carts;
         }
 
         public Task<CartModel> GetAllItemsFromCart(Guid cartId)
