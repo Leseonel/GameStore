@@ -85,16 +85,19 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<CartModel>.ValidateDataOnNull(cart);
 
             var order = cart.Orders.FirstOrDefault(x => x.GameId == gameId);
+
             if (order != null)
             {
                 order.AmountOfGames -= 1;
                 order.TotalPrice -= order.Price;
                 cart.TotalPrice -= order.Price;
+
                 if (order.AmountOfGames == 0)
                 {
                     cart.Orders.Remove(order);
                     _context.Orders.Remove(order);
                 }
+
                 if (cart.Orders.Count == 0)
                 {
                     _context.Carts.Remove(cart);
@@ -109,6 +112,7 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<CartModel>.ValidateDataOnNull(cart);
 
             var order = cart.Orders.FirstOrDefault(x => x.GameId == gameId);
+
             if (order != null)
             {
                 order.AmountOfGames += 1;
@@ -125,11 +129,13 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<CartModel>.ValidateDataOnNull(cart);
 
             var order = cart.Orders.FirstOrDefault(x => x.GameId == gameId);
+
             if (order != null)
             {
                 cart.TotalPrice -= order.TotalPrice;
                 cart.Orders.Remove(order);
                 _context.Orders.Remove(order);
+
                 if (cart.Orders.Count == 0)
                 {
                     _context.Carts.Remove(cart);

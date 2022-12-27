@@ -27,15 +27,18 @@ namespace GameStore.Data.Repositories
         public async Task<GenreModel> GetGenreById(Guid id)
         {
             GenreModel genre = await _context.Genres.Where(genres => genres.GenreId == id).FirstOrDefaultAsync();
+
             if (genre == null)
             {
                 throw new DoesNotExistsException("Genre not found with that ID");
             }
+
             return genre;
         }
         public async Task<GenreModel> AddGenre(GenreModel genre, Guid? genreId)
         {
             ValidateOnNull<GenreModel>.ValidateDataOnNull(genre);
+
             if (genreId == null)
             {
                 if (await _context.Genres.Where(x => x.GenreName == genre.GenreName).AnyAsync())
@@ -44,6 +47,7 @@ namespace GameStore.Data.Repositories
                 }
                 await _context.Genres.AddAsync(genre);
                 await _context.SaveChangesAsync();
+
                 return genre;
             }
             var parentGenre = await _context.Genres.Where(x => x.GenreId == genreId).Include(x => x.Children).SingleOrDefaultAsync();
@@ -52,12 +56,14 @@ namespace GameStore.Data.Repositories
             parentGenre.Children ??= new List<GenreModel>();
             parentGenre.Children.Add(genre);
             await _context.SaveChangesAsync();
+
             return genre;
         }
 
         public async Task<GenreModel> EditGenre(GenreModel editedGenre, Guid id)
         {
             var genreToUpdate = await _context.Genres.Where(genres => genres.GenreId == id).FirstOrDefaultAsync();
+
             if (genreToUpdate == null)
             {
                 throw new DoesNotExistsException("Can not find a genre with that ID to edit");
@@ -71,12 +77,14 @@ namespace GameStore.Data.Repositories
         public async Task<GenreModel> DeleteGenre(Guid id)
         {
             GenreModel findGenre = await _context.Genres.Where(x => x.GenreId == id).FirstOrDefaultAsync();
+
             if (findGenre == null)
             {
                 throw new DoesNotExistsException("Can not find a genre to delete");
             }
             _context.Genres.Remove(findGenre);
             await _context.SaveChangesAsync();
+
             return findGenre;
         }
     }
