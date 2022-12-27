@@ -3,7 +3,7 @@ using GameStore.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameStore.Data.UnitOfWork;
-using GameStore.Data.Repositories.FilterRepository;
+using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Services.ServiceInterfaces;
 
 namespace GameStore.Services

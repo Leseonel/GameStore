@@ -1,4 +1,5 @@
 ﻿using GameStore.CustomExceptions;
+using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Models;
 using GameStore.ValidateData;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GenreRepository
+namespace GameStore.Data.Repositories
 {
     public class GenresRepository : IGenresRepository
     {
@@ -66,7 +67,7 @@ namespace GameStore.Data.Repositories.GenreRepository
 
             return genreToUpdate;
         }
-        
+
         public async Task<GenreModel> DeleteGenre(Guid id)
         {
             GenreModel findGenre = await _context.Genres.Where(x => x.GenreId == id).FirstOrDefaultAsync();

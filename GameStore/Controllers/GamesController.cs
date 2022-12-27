@@ -27,7 +27,7 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _gamesService.GetAllGames());
         }
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("Game/{id}")]
         public async Task<IActionResult> GetGame(Guid id)
@@ -41,13 +41,13 @@ namespace GameStore.Controllers
             return new OkObjectResult(await _gamesService.AddGame(newGame));
         }
         [HttpPost]
-        [Route("Filter")]
+        [Route("FilterByGenreId")]
         public async Task<IActionResult> FilterGamesByGenreId([FromBody] List<GameFilter> gameFilters)
         {
             return new OkObjectResult(await _filterService.FilterGamesByGenreId(gameFilters));
         }
         [HttpPost]
-        [Route("FilterName")]
+        [Route("FilterByName")]
         public async Task<IActionResult> FilterGamesByName([FromBody] List<GameFilter> gameFilters)
         {
             return new OkObjectResult(await _filterService.FilterGamesByName(gameFilters));

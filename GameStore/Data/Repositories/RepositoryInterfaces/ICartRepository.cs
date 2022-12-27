@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System;
 
-namespace GameStore.Data.Repositories.CartRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface ICartRepository
     {

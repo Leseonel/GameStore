@@ -1,4 +1,5 @@
-﻿using GameStore.Filters.Enums;
+﻿using GameStore.Data.Repositories.RepositoryInterfaces;
+using GameStore.Filters.Enums;
 using GameStore.Filters;
 using GameStore.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Linq;
 using System;
 using GameStore.ValidateData;
 
-namespace GameStore.Data.Repositories.FilterRepository
+namespace GameStore.Data.Repositories
 {
     public class FilterRepository : IFilterRepository
     {

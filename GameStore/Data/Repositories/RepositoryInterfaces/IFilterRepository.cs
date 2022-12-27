@@ -3,7 +3,7 @@ using GameStore.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.FilterRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface IFilterRepository
     {

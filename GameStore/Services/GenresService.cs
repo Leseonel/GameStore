@@ -1,4 +1,4 @@
-﻿using GameStore.Data.Repositories.GenreRepository;
+﻿using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
 using GameStore.Services.ServiceInterfaces;

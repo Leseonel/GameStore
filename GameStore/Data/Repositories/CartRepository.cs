@@ -1,13 +1,13 @@
-﻿using GameStore.Models;
+﻿using GameStore.Data.Repositories.RepositoryInterfaces;
+using GameStore.Models;
 using GameStore.ValidateData;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.CartRepository
+namespace GameStore.Data.Repositories
 {
     public class CartRepository : ICartRepository
     {

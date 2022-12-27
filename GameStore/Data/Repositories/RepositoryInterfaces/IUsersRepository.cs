@@ -2,7 +2,7 @@
 using GameStore.ViewModels;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.UserRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface IUsersRepository
     {

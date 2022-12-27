@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GenreRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface IGenresRepository
     {

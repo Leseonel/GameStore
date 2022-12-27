@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GameCommentRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface IGameCommentsRepository
     {

@@ -1,9 +1,9 @@
 using GameStore.Data;
-using GameStore.Data.Repositories.CartRepository;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
 using GameStore.Services;
 using GameStore.Services.MapperService;
+using GameStore.Services.ServiceInterfaces;
 using GameStore.Services.TokenService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -55,13 +55,13 @@ namespace GameStore
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // Add Scoped Services
-            services.AddScoped<GamesService>();
-            services.AddScoped<UsersService>();
-            services.AddScoped<FilterService>();
-            services.AddScoped<GenresService>();
-            services.AddScoped<AccountsService>();
-            services.AddScoped<GameCommentService>();
-            services.AddScoped<CartsService>();
+            services.AddScoped<IGamesService, GamesService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IFilterService, FilterService>();
+            services.AddScoped<IGenresService, GenresService>();
+            services.AddScoped<IAccountsService, AccountsService>();
+            services.AddScoped<IGameCommentService ,GameCommentService>();
+            services.AddScoped<ICartsService ,CartsService>();
 
             services.AddScoped<JwtTokenService>();//JwtToken
 

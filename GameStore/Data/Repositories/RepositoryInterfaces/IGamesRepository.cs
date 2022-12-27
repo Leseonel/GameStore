@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GameRepository
+namespace GameStore.Data.Repositories.RepositoryInterfaces
 {
     public interface IGamesRepository
     {
@@ -15,3 +15,4 @@ namespace GameStore.Data.Repositories.GameRepository
         Task<GameModel> DeleteGame(Guid id);
     }
 }
+

@@ -22,7 +22,7 @@ namespace GameStore.Models
         public Guid UserId { get; set; }
 
         [ForeignKey("GameModel")]
-        public Guid GameId { get; set; }//guid gadakvana
+        public Guid GameId { get; set; }
 
         public Guid? ParentId { get; set; }
 

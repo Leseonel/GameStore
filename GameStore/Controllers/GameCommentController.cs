@@ -1,5 +1,4 @@
 ﻿using GameStore.Models;
-using GameStore.Services;
 using GameStore.Services.ServiceInterfaces;
 using GameStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +24,7 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _gameCommentsService.GetAllGameAllComments());
         }
+        [AllowAnonymous]
         [HttpGet]
         [Route("AllGameCommentsForGame")]
         public async Task<IActionResult> GetAllCommentsForGame(Guid gameId)
@@ -49,18 +49,17 @@ namespace GameStore.Controllers
         {
             return new OkObjectResult(await _gameCommentsService.RestoreComment(id));
         }
-
+        [HttpPut]
+        [Route("DeleteCommentForUser/{id}")]
+        public async Task<IActionResult> DeleteCommentForUser(Guid id)
+        {
+            return new OkObjectResult(await _gameCommentsService.DeleteCommentForUser(id));
+        }
         [HttpDelete]
         [Route("DeleteComment/{id}")]
         public async Task<IActionResult> DeleteComment(Guid id)
         {
             return new OkObjectResult(await _gameCommentsService.DeleteComment(id));
-        }
-        [HttpDelete]
-        [Route("DeleteCommentForUser/{id}")]
-        public async Task<IActionResult> DeleteCommentForUser(Guid id)
-        {
-            return new OkObjectResult(await _gameCommentsService.DeleteCommentForUser(id));
         }
     }
 }
