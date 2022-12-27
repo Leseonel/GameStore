@@ -29,12 +29,14 @@ namespace GameStore.Data.Repositories
         {
             GameModel game = await _context.Games.Where(games => games.GameId == id).FirstOrDefaultAsync();
             ValidateOnNull<GameModel>.ValidateDataOnNull(game);
+
             return game;
         }
         public async Task<GameModel> AddGame(CreateGameViewModel newGame)
         {
             ValidateOnNull<CreateGameViewModel>.ValidateDataOnNull(newGame);
             ValidateOnNullAndEmpty<string>.ValidateDataOnNullAndEmpty(newGame.GameName);
+
             if (await _context.Games.Where(g => g.GameName == newGame.GameName).AnyAsync())
             {
                 throw new AlreadyExistsException("This game already exists in GameStore");
@@ -53,6 +55,7 @@ namespace GameStore.Data.Repositories
             await _context.SaveChangesAsync();
 
             var savedGame = await _context.Games.Where(x => x.GameName == game.GameName).SingleOrDefaultAsync();
+
             if (newGame.GenreIds != null && newGame.GenreIds.Count != 0)
             {
                 savedGame = await AddGenresToGame(savedGame, newGame.GenreIds);
@@ -68,6 +71,7 @@ namespace GameStore.Data.Repositories
             foreach (var genreId in genreIds)
             {
                 var genre = await _context.Genres.Where(x => x.GenreId == genreId).SingleOrDefaultAsync();
+
                 if (genre != null)
                 {
                     game.GameAndGenre.Add(new GamesAndGenresModel() { GameId = game.GameId, GenreId = genre.GenreId });
@@ -79,6 +83,7 @@ namespace GameStore.Data.Repositories
         public async Task<GameModel> EditGame(EditGameViewModel editedGame, Guid id)
         {
             var gameToUpdate = await _context.Games.Where(game => game.GameId == id).Include(x => x.GameAndGenre).FirstOrDefaultAsync();
+
             if (gameToUpdate != null)
             {
                 gameToUpdate.GameName = editedGame.GameName;
@@ -112,6 +117,7 @@ namespace GameStore.Data.Repositories
         public async Task<GameModel> DeleteGame(Guid id)
         {
             GameModel findGame = await _context.Games.Where(x => x.GameId == id).FirstOrDefaultAsync();
+
             if (findGame == null)
             {
                 throw new DoesNotExistsException("Can not find a game to delete");

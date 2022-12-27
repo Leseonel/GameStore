@@ -37,11 +37,13 @@ namespace GameStore.Data.Repositories
             var commentToSave = _mapper.Map<CommentModel>(comment);
             ValidateOnNull<CommentModel>.ValidateDataOnNull(commentToSave);
             ValidateOnNullAndEmpty<string>.ValidateDataOnNullAndEmpty(commentToSave.CommentText);
+
             if (commentToSave.CommentText.Length > 600)
             {
                 throw new CouldNotAddException("Text is too long!. Comment can contain only 600 characters");
             }
             commentToSave.CommentDate = DateTime.UtcNow;
+
             if (parentCommentId == null)
             {
                 await _context.Comments.AddAsync(commentToSave);

@@ -21,6 +21,7 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<UserViewModel>.ValidateDataOnNull(user);
             var userToUpdate = await _context.Users.Where(x => x.Id == user.UserId.ToString()).FirstOrDefaultAsync();
             ValidateOnNull<UserModel>.ValidateDataOnNull(userToUpdate);
+
             if (_context.Users.Any(x => x.Email == user.Email))
             {
                 throw new CouldNotUpdateUserException("User with this email already exists");
