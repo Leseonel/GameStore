@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.CustomExceptions;
+using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Models;
 using GameStore.ValidateData;
 using GameStore.ViewModels;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GameCommentRepository
+namespace GameStore.Data.Repositories
 {
     public class GameCommentsRepository : IGameCommentsRepository
     {
@@ -103,10 +104,10 @@ namespace GameStore.Data.Repositories.GameCommentRepository
 
             ValidateOnNull<CommentModel>.ValidateDataOnNull(comment);
 
-            await _context.SaveChangesAsync();
-
             comment.DeletedAt = DateTime.UtcNow;
             _context.Comments.Update(comment);
+            await _context.SaveChangesAsync();
+
             return comment;
         }
     }

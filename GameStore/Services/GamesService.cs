@@ -1,5 +1,4 @@
-﻿using GameStore.Data.Repositories;
-using GameStore.Data.Repositories.GameRepository;
+﻿using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Data.UnitOfWork;
 using GameStore.Models;
 using GameStore.Services.ServiceInterfaces;

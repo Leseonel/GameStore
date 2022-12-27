@@ -1,4 +1,5 @@
 ﻿using GameStore.CustomExceptions;
+using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Models;
 using GameStore.ValidateData;
 using GameStore.ViewModels;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.UserRepository
+namespace GameStore.Data.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
@@ -38,6 +39,8 @@ namespace GameStore.Data.Repositories.UserRepository
             userToUpdate.PhoneNumber = user.PhoneNumber;
             userToUpdate.AvatarUrl = user.AvatarUrl;
             userToUpdate.GenderId = user.GenderId;
+
+            await _context.SaveChangesAsync();
 
             return user;
         }

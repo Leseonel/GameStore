@@ -1,4 +1,5 @@
 ﻿using GameStore.CustomExceptions;
+using GameStore.Data.Repositories.RepositoryInterfaces;
 using GameStore.Filters.Enums;
 using GameStore.Models;
 using GameStore.ValidateData;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameStore.Data.Repositories.GameRepository
+namespace GameStore.Data.Repositories
 {
     public class GamesRepository : IGamesRepository
     {
@@ -54,7 +55,7 @@ namespace GameStore.Data.Repositories.GameRepository
             var savedGame = await _context.Games.Where(x => x.GameName == game.GameName).SingleOrDefaultAsync();
             if (newGame.GenreIds != null && newGame.GenreIds.Count != 0)
             {
-                return await AddGenresToGame(savedGame, newGame.GenreIds);
+                savedGame = await AddGenresToGame(savedGame, newGame.GenreIds);
             }
 
             await _context.SaveChangesAsync();

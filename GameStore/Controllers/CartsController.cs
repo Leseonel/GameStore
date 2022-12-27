@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
 using GameStore.Services.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameStore.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class CartsController : Controller
     {
         private readonly ICartsService _cartsService;

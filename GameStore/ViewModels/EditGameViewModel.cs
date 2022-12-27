@@ -1,5 +1,4 @@
-﻿using GameStore.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using GameStore.Filters;
 
