@@ -1,6 +1,7 @@
 ﻿using GameStore.Models;
 using System.Threading.Tasks;
 using System;
+using GameStore.ViewModels;
 
 namespace GameStore.Services.ServiceInterfaces
 {
@@ -8,9 +9,8 @@ namespace GameStore.Services.ServiceInterfaces
     {
         Task<CartModel> GetAllItemsFromCart(Guid cartId);
         Task AddGameToCart(OrderModel order);
-        Task DecreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId);
-        Task IncreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId);
+        Task EditOrder(EditCartViewModel editedOrder);
         Task RemoveGameFromCart(Guid gameId, Guid userId, Guid cartId);
-        Task<OrderContactsInfoModel> AddContactInfoToOrder(OrderContactsInfoModel contact);
+        Task<FinishedOrdersModel> FinishOrder(FinishedOrdersModel contact);
     }
 }

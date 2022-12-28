@@ -16,7 +16,7 @@ namespace GameStore.ViewModels
 
         public DateTime CommentDateLeft { get; set; }
 
-        public DateTime? DeletedAt { get; set; } = null;
+        public bool IsDeleted { get; set; } = false;
 
         public Guid UserId { get; set; }
 

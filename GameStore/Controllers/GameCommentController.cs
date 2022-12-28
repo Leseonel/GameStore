@@ -50,10 +50,10 @@ namespace GameStore.Controllers
             return new OkObjectResult(await _gameCommentsService.RestoreComment(id));
         }
         [HttpPut]
-        [Route("DeleteCommentForUser/{id}")]
-        public async Task<IActionResult> DeleteCommentForUser(Guid id)
+        [Route("SoftDeleteCommentForUser/{id}")]
+        public async Task<IActionResult> SoftDeleteCommentForUser(Guid id)
         {
-            return new OkObjectResult(await _gameCommentsService.DeleteCommentForUser(id));
+            return new OkObjectResult(await _gameCommentsService.SoftDeleteCommentForUser(id));
         }
         [HttpDelete]
         [Route("DeleteComment/{id}")]

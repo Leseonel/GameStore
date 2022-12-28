@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using GameStore.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
+using GameStore.ViewModels;
 
 namespace GameStore.Controllers
 {
@@ -30,24 +31,17 @@ namespace GameStore.Controllers
             return Ok();
         }
         [HttpPost]
-        [Route("AddContactToOrder")]
-        public async Task<IActionResult> AddContactInfoToOrder([FromBody] OrderContactsInfoModel contact)
+        [Route("FinishOrder")]
+        public async Task<IActionResult> FinishOrder([FromBody] FinishedOrdersModel contact)
         {
-            await _cartsService.AddContactInfoToOrder(contact);
+            await _cartsService.FinishOrder(contact);
             return Ok();
         }
         [HttpPost]
-        [Route("DecreaseGameAmount")]
-        public async Task<IActionResult> DecreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId)
+        [Route("EditOrder")]
+        public async Task<IActionResult> EditOrder(EditCartViewModel editedOrder)
         {
-            await _cartsService.DecreaseAmountOfGame(gameId, userId, cartId);
-            return Ok();
-        }
-        [HttpPost]
-        [Route("IncreaseGameAmount")]
-        public async Task<IActionResult> IncreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId)
-        {
-            await _cartsService.IncreaseAmountOfGame(gameId, userId, cartId);
+            await _cartsService.EditOrder(editedOrder);
             return Ok();
         }
         [HttpDelete]
