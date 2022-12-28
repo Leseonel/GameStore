@@ -13,7 +13,7 @@ namespace GameStore.Data.Repositories.RepositoryInterfaces
         Task<CommentViewModel> AddCommentToGame(CommentViewModel comment, Guid? parentCommentId);
         Task<CommentModel> EditComment(CommentModel comment, Guid id);
         Task<CommentModel> RestoreComment(Guid commentId);
+        Task<CommentModel> SoftDeleteCommentForUser(Guid id);
         Task<CommentModel> DeleteComment(Guid id);
-        Task<CommentModel> DeleteCommentForUser(Guid id);
     }
 }

@@ -14,6 +14,7 @@ namespace GameStore.Data.Repositories
 {
     public class GameCommentsRepository : IGameCommentsRepository
     {
+        const int CommentMaxLength = 600;
         private readonly GameStoreContext _context;
         private readonly IMapper _mapper;
         public GameCommentsRepository(GameStoreContext context, IMapper mapper)
@@ -30,7 +31,7 @@ namespace GameStore.Data.Repositories
         }
         public async Task<IList<CommentModel>> GetAllCommentsForGame(Guid gameId)
         {
-            return await _context.Comments.Where(x => x.GameId == gameId).ToListAsync();
+            return await _context.Comments.Where(x => x.GameId == gameId && !x.IsDeleted).ToListAsync();
         }
         public async Task<CommentViewModel> AddCommentToGame(CommentViewModel comment, Guid? parentCommentId)
         {
@@ -38,7 +39,7 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<CommentModel>.ValidateDataOnNull(commentToSave);
             ValidateOnNullAndEmpty<string>.ValidateDataOnNullAndEmpty(commentToSave.CommentText);
 
-            if (commentToSave.CommentText.Length > 600)
+            if (commentToSave.CommentText.Length > CommentMaxLength)
             {
                 throw new CouldNotAddException("Text is too long!. Comment can contain only 600 characters");
             }
@@ -64,7 +65,7 @@ namespace GameStore.Data.Repositories
         }
         public async Task<CommentModel> EditComment(CommentModel comment, Guid id)
         {
-            if (comment.CommentText.Length > 600)
+            if (comment.CommentText.Length > CommentMaxLength)
             {
                 throw new CouldNotAddException("Text is too long! Comment can contain only 600 characters");
             }
@@ -79,15 +80,27 @@ namespace GameStore.Data.Repositories
         }
         public async Task<CommentModel> RestoreComment(Guid commentId)
         {
-            var commentToRestore = await _context.Comments.Where(x => x.CommentId == commentId && x.DeletedAt != null).SingleOrDefaultAsync();
+            var commentToRestore = await _context.Comments.Where(x => x.CommentId == commentId && !x.IsDeleted).SingleOrDefaultAsync();
 
             ValidateOnNull<CommentModel>.ValidateDataOnNull(commentToRestore);
 
-            commentToRestore.DeletedAt = null;
+            commentToRestore.IsDeleted = false;
             _context.Update(commentToRestore);
             await _context.SaveChangesAsync();
 
             return commentToRestore;
+        }
+        public async Task<CommentModel> SoftDeleteCommentForUser(Guid id)
+        {
+            CommentModel comment = await _context.Comments.Where(x => x.CommentId == id).FirstOrDefaultAsync();
+
+            ValidateOnNull<CommentModel>.ValidateDataOnNull(comment);
+
+            comment.IsDeleted = true;
+            _context.Comments.Update(comment);
+            await _context.SaveChangesAsync();
+
+            return comment;
         }
         public async Task<CommentModel> DeleteComment(Guid id)
         {
@@ -96,18 +109,6 @@ namespace GameStore.Data.Repositories
             ValidateOnNull<CommentModel>.ValidateDataOnNull(comment);
 
             _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
-
-            return comment;
-        }
-        public async Task<CommentModel> DeleteCommentForUser(Guid id)
-        {
-            CommentModel comment = await _context.Comments.Where(x => x.CommentId == id).FirstOrDefaultAsync();
-
-            ValidateOnNull<CommentModel>.ValidateDataOnNull(comment);
-
-            comment.DeletedAt = DateTime.UtcNow;
-            _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
 
             return comment;

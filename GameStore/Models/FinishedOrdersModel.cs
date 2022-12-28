@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.Models
 {
-    public class OrderContactsInfoModel
+    public class FinishedOrdersModel
     {
         [Key]
         public Guid OrderContactsId { get; set; }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using GameStore.Services.ServiceInterfaces;
 using GameStore.Data.UnitOfWork;
+using GameStore.ViewModels;
 
 namespace GameStore.Services
 {
@@ -26,21 +27,17 @@ namespace GameStore.Services
         {
             return _cartRepository.AddGameToCart(order);
         }
-        public Task DecreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId)
+        public Task EditOrder(EditCartViewModel editedOrder)
         {
-            return _cartRepository.DecreaseAmountOfGame(gameId, userId, cartId);
-        }
-        public Task IncreaseAmountOfGame(Guid gameId, Guid userId, Guid cartId)
-        {
-            return _cartRepository.IncreaseAmountOfGame(gameId, userId, cartId);
+            return _cartRepository.EditOrder(editedOrder);
         }
         public Task RemoveGameFromCart(Guid gameId, Guid userId, Guid cartId)
         {
             return _cartRepository.RemoveGameFromCart(gameId, userId, cartId);
         }
-        public Task<OrderContactsInfoModel> AddContactInfoToOrder(OrderContactsInfoModel contact)
+        public Task<FinishedOrdersModel> FinishOrder(FinishedOrdersModel contact)
         {
-            return _cartRepository.AddContactInfoToOrder(contact);
+            return _cartRepository.FinishOrder(contact);
         }
     }
 }

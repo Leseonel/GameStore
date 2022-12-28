@@ -11,7 +11,7 @@ namespace GameStore.Data
         }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
-        public DbSet<OrderContactsInfoModel> OrderWithUserContact { get; set; }
+        public DbSet<FinishedOrdersModel> FinishedOrders { get; set; }
         public DbSet<GenreModel> Genres { get; set; }
         public DbSet<GenderModel> Genders { get; set; }
         public DbSet<GameModel> Games { get; set; }

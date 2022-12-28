@@ -16,7 +16,7 @@ namespace GameStore.Models
 
         public DateTime CommentDate { get; set; }
 
-        public DateTime? DeletedAt { get; set; } = null;
+        public bool IsDeleted { get; set; } = false;
 
         [ForeignKey("UserModel")]
         public Guid UserId { get; set; }
