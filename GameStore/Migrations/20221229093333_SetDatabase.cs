@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameStore.Migrations
 {
-    public partial class ChangeCommentModelProperty : Migration
+    public partial class SetDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,6 +80,25 @@ namespace GameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FinishedOrders",
+                columns: table => new
+                {
+                    OrderContactsId = table.Column<Guid>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    PaymentTypeId = table.Column<Guid>(nullable: false),
+                    CartId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Comment = table.Column<string>(maxLength: 600, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinishedOrders", x => x.OrderContactsId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
@@ -126,25 +145,6 @@ namespace GameStore.Migrations
                         principalTable: "Genres",
                         principalColumn: "GenreId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderWithUserContact",
-                columns: table => new
-                {
-                    OrderContactsId = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: false),
-                    PaymentTypeId = table.Column<Guid>(nullable: false),
-                    CartId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    Comment = table.Column<string>(maxLength: 600, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderWithUserContact", x => x.OrderContactsId);
                 });
 
             migrationBuilder.CreateTable(
@@ -440,6 +440,9 @@ namespace GameStore.Migrations
                 name: "Currencys");
 
             migrationBuilder.DropTable(
+                name: "FinishedOrders");
+
+            migrationBuilder.DropTable(
                 name: "GamesAndGenres");
 
             migrationBuilder.DropTable(
@@ -447,9 +450,6 @@ namespace GameStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "OrderWithUserContact");
 
             migrationBuilder.DropTable(
                 name: "PaymentTypes");
