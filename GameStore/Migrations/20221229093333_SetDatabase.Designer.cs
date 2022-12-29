@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Migrations
 {
     [DbContext(typeof(GameStoreContext))]
-    [Migration("20221228164648_ChangeCommentModelProperty")]
-    partial class ChangeCommentModelProperty
+    [Migration("20221229093333_SetDatabase")]
+    partial class SetDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,6 +91,46 @@ namespace GameStore.Migrations
                     b.HasKey("CurrencyId");
 
                     b.ToTable("Currencys");
+                });
+
+            modelBuilder.Entity("GameStore.Models.FinishedOrdersModel", b =>
+                {
+                    b.Property<Guid>("OrderContactsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(600)")
+                        .HasMaxLength(600);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PaymentTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("OrderContactsId");
+
+                    b.ToTable("FinishedOrders");
                 });
 
             modelBuilder.Entity("GameStore.Models.GameModel", b =>
@@ -180,46 +220,6 @@ namespace GameStore.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Genres");
-                });
-
-            modelBuilder.Entity("GameStore.Models.OrderContactsInfoModel", b =>
-                {
-                    b.Property<Guid>("OrderContactsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(600)")
-                        .HasMaxLength(600);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PaymentTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OrderContactsId");
-
-                    b.ToTable("OrderWithUserContact");
                 });
 
             modelBuilder.Entity("GameStore.Models.OrderModel", b =>
